@@ -1,8 +1,8 @@
 import Image from "next/image";
 
-import PublishmentTypes from "../types/publishment-types"
+import PublishmentTypes from "@/src/types/publishment-types";
 
-import getInitials from "../utils/getInitials"
+import { getInitials } from "@/src/utils/name";
 
 import LikeIcon from "@/public/like-icon.svg";
 
