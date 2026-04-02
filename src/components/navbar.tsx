@@ -19,7 +19,7 @@ import AppLogo from "@/public/app-logo.svg";
 export default function NavBar() {
     const router = useRouter()
 
-    const [menuState, setMenuState] = useState(true);
+    const [menuState, setMenuState] = useState(false);
     const [logged, setLogged] = useState(true);
 
     return (
@@ -36,9 +36,9 @@ export default function NavBar() {
                     logged ?
                         <>
                             <div className="hidden sm:flex gap-3 ">
-                                <div className="border-1 border-borders rounded-lg py-1 px-3 hover:bg-main-purple cursor-pointer transition-all">
+                                <a className="border-1 border-borders rounded-lg py-1 px-3 hover:bg-main-purple cursor-pointer transition-all" href="/feed">
                                     <Image src={HomeIcon} width={28} height={28} alt="Home Icon" />
-                                </div>
+                                </a>
                                 <div className="border-1 border-borders rounded-lg py-1 px-3 hover:bg-main-purple cursor-pointer transition-all">
                                     <Image src={SearchIcon} width={28} height={28} alt="Search Icon" />
                                 </div>

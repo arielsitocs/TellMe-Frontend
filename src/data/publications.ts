@@ -14,36 +14,36 @@ const publications: PublishmentTypes[] = [
     },
     {
         userImage: null,
-        firstName: "Juan",
-        lastName: "Díaz",
-        text: "Estoy probando el sistema de publicaciones con una segunda entrada para validar el diseño de la tarjeta.",
+        firstName: "Camila",
+        lastName: "Rojas",
+        text: "Probé la vista mobile del feed y quedó bastante fluida, incluso en pantallas pequeñas.",
         image: ImagePlaceholder,
         likes: 18,
         comments: []
     },
     {
         userImage: null,
-        firstName: "Juan",
-        lastName: "Díaz",
-        text: "Hoy dejé más pulido el perfil y ajusté algunos detalles de espaciado para que todo respire mejor.",
+        firstName: "Andrés",
+        lastName: "Vega",
+        text: "Hoy ajusté el perfil y mejoré los espacios entre secciones para que la lectura sea más clara.",
         image: null,
         likes: 31,
         comments: []
     },
     {
         userImage: null,
-        firstName: "Juan",
-        lastName: "Díaz",
-        text: "Agregué un par de mejoras al layout principal y ya se siente mucho más consistente en desktop.",
+        firstName: "Laura",
+        lastName: "Mendoza",
+        text: "Implementé mejoras en el layout principal y ahora la interfaz se siente más consistente en desktop.",
         image: ImagePlaceholder,
         likes: 27,
         comments: []
     },
     {
         userImage: null,
-        firstName: "Juan",
-        lastName: "Díaz",
-        text: "Revisé colores, tipografía y jerarquía visual para que la interfaz se vea más clara y directa.",
+        firstName: "Diego",
+        lastName: "Paredes",
+        text: "Revisé colores y tipografía para reforzar la jerarquía visual y mejorar la claridad del contenido.",
         image: null,
         likes: 35,
         comments: []

@@ -1,8 +1,9 @@
 import Login from "../components/login";
-import Register from "../components/register";
 
 export default function Home() {
   return (
-    <Login />
+    <div className="w-full h-[100vh] flex justify-center items-center">
+      <Login />
+    </div>
   );
 }
