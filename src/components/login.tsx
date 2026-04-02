@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 import Image from "next/image";
@@ -11,6 +12,8 @@ import GoogleIcon from "@/public/google-icon.png";
 import AppLogo from "@/public/app-logo.svg"
 
 export default function Login() {
+    const router = useRouter();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -21,12 +24,12 @@ export default function Login() {
                 <p className="text-[15px] text-gray-text ">Bienvenido de vuelta!</p>
             </div>
             <form action="" className="flex gap-2 flex-col">
-                <Input type={'email'} title={'Correo electrónico'} placeholder="juan@ejemplo.com" value={email} setValue={setEmail} required={true} />
-                <Input type={'password'} title={'Contraseña'} placeholder="juan1234" value={password} setValue={setPassword} required={true} />
+                <Input type={'email'} title={'Correo electrónico'} placeholder="juan@ejemplo.com" value={email} setValue={setEmail} />
+                <Input type={'password'} title={'Contraseña'} placeholder="juan1234" value={password} setValue={setPassword}  />
                 <div className="ml-auto mb-3">
                     <a href="" className="text-[14px] text-main-purple hover:text-white cursor-pointer transition-all">¿Olvidaste tu contraseña?</a>
                 </div>
-                <Button text="Iniciar Sesión" action={() => { }} />
+                <Button text="Iniciar Sesión" action={() => { router.push('/feed') }} />
             </form>
             <div className="flex items-center justify-center mt-5">
                 <hr className="border-borders flex-1" />
