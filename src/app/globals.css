@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --main-purple: #534AB7;
+  --light-purple: #EEEDFE;
+  --dark--purple: #3C3489;
+  --coral: #D85A30;
+  --light-coral: #D85A30;
+  --dark-coral: #712B13;
+  --gray-text: #888780;
+  --light-gray: #D3D1C7;
+  --very-light-gray: #F1EFE8;
+  --teal: #1D9E75;
+  --light-teal: #E1F5EE;
+  --dark-teal: #085041;
+  --page-background: #1C1C1C;
+  --card-background: #2A2A2A;
+  --transparent-card-background: rgba(42, 42, 42, 0.963);
+  --light-card-background: #3A3A3A;
+  --borders: rgba(255,255,255,0.08);
+  --main-text: #F0F0F0;
+  --secondary-text: #9B9B9B;
+  --terciary-text: #666666;
+  --red: #E24B4A;
+}
+
+@theme inline {
+  --color-main-purple: var(--main-purple);
+  --color-light-purple: var(--light-purple);
+  --color-dark-purple: var(--dark--purple);
+  --color-coral: var(--coral);
+  --color-light-coral: var(--light-coral);
+  --color-dark-coral: var(--dark-coral);
+  --color-gray-text: var(--gray-text);
+  --color-light-gray: var(--light-gray);
+  --color-very-light-gray: var(--very-light-gray);
+  --color-teal: var(--teal);
+  --color-light-teal: var(--light-teal);
+  --color-dark-teal: var(--dark-teal);
+  --color-page-background: var(--page-background);
+  --color-card-background: var(--card-background);
+  --color-transparent-card-background: var(--transparent-card-background);
+  --color-light-card-background: var(--light-card-background);
+  --color-borders: var(--borders);
+  --color-main-text: var(--main-text);
+  --color-secondary-text: var(--secondary-text);
+  --color-terciary-text: var(--terciary-text);
+  --color-red: var(--red);
+  --font-inter: var(--font-inter);
+}
+
+/* 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-inter);
+}
