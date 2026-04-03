@@ -2,7 +2,7 @@ interface InputTypes {
     type: string
     title: string
     value: string
-    setValue: (value: any) => void
+    setValue?: (value: string) => void
     placeholder: string
     required?: boolean
 }

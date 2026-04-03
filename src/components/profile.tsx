@@ -13,11 +13,13 @@ import publications from "../data/publications";
 import Publishment from "./ui/publishment";
 import Button from "./ui/button";
 
-import EditProfile from "./mobile-menu";
+import EditProfile from "./edit-profile";
 
 import CalendarIcon from "@/public/calendar-icon.svg";
 
 export default function Profile({ image, firstName, lastName, description, posts, followers, following }: UserDataTypes) {
+    const [editProfileState, setEditProfileState] = useState(false);
+    
     const filteredPubs = publications.filter((publication) => {
         return publication.firstName === firstName && publication.lastName === lastName
     })
@@ -41,7 +43,7 @@ export default function Profile({ image, firstName, lastName, description, posts
                             </div>
                         )}
                         <div className="ml-auto">
-                            <Button text="Editar Perfil" action={() => {}} />
+                            <Button text="Editar Perfil" action={() => setEditProfileState(true)} />
                         </div>
                     </div>
 
@@ -103,7 +105,7 @@ export default function Profile({ image, firstName, lastName, description, posts
                     ))
                 }
             </div>
-          
+          <EditProfile firstName={firstName} lastName={lastName} description={description} posts={posts} followers={followers} following={following} state={editProfileState} setState={setEditProfileState} />
         </>
     )
 }

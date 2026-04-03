@@ -13,11 +13,11 @@ import SearchIcon from "@/public/search-icon.svg";
 import Configurationicon from "@/public/configuration-icon.svg";
 import OpenDoorIcon from "@/public/open-door-icon.svg";
 
-export default function MobileMenu({ image, firstName, lastName, description, posts, followers, following, state, setState }: UserDataTypes) {
+export default function MobileMenu({ image, firstName, lastName, state, setState }: UserDataTypes) {
     if (!state) return null;
 
     return (
-        <div className="flex flex-col sm:hidden fixed top-18 left-1/2 -translate-x-1/2 w-[95%] bg-transparent-card-background border-2 border-dark-purple rounded-lg p-3">
+        <div className="flex flex-col sm:hidden fixed top-18 left-1/2 -translate-x-1/2 w-[95%] bg-alternative-card-background shadow-lg rounded-lg p-3">
             <div className="border-b-1 border-borders">
                 <div className="flex items-center mb-3">
                     {image ? (
@@ -46,10 +46,10 @@ export default function MobileMenu({ image, firstName, lastName, description, po
                 <SideNavigationLink icon={SearchIcon} title={'Buscar'} linkTo={'search'} />
                 <SideNavigationLink icon={Configurationicon} title={'Configuración'} linkTo={'settings'} />
             </div>
-            <div className="w-full flex justify-center items-center border-1 border-borders mt-4 mb-4 py-2 rounded-lg hover:border-red cursor-pointer " onClick={() => setState?.(false)}>
+            <button type="button" className="w-full flex justify-center items-center border-1 border-borders mt-4 mb-4 py-2 rounded-lg hover:border-red cursor-pointer" onClick={() => setState?.(false)}>
                 <Image src={OpenDoorIcon} width={30} height={30} alt="Open Door Icon" />
                 <h1 className="text-red">Cerrar Sesión</h1>
-            </div>
+            </button>
         </div>
     )
 }

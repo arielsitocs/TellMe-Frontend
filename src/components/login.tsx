@@ -3,13 +3,10 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-import Image from "next/image";
-
 import Input from "./ui/input"
 import Button from "./ui/button";
 
 import GoogleIcon from "@/public/google-icon.png";
-import AppLogo from "@/public/app-logo.svg"
 
 export default function Login() {
     const router = useRouter();
@@ -27,7 +24,7 @@ export default function Login() {
                 <Input type={'email'} title={'Correo electrónico'} placeholder="juan@ejemplo.com" value={email} setValue={setEmail} />
                 <Input type={'password'} title={'Contraseña'} placeholder="juan1234" value={password} setValue={setPassword}  />
                 <div className="ml-auto mb-3">
-                    <a href="" className="text-[14px] text-main-purple hover:text-white cursor-pointer transition-all">¿Olvidaste tu contraseña?</a>
+                    <button type="button" className="text-[14px] text-main-purple hover:text-white cursor-pointer transition-all">¿Olvidaste tu contraseña?</button>
                 </div>
                 <Button text="Iniciar Sesión" action={() => { router.push('/feed') }} />
             </form>

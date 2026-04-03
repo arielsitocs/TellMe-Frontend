@@ -17,7 +17,7 @@ export default function SideNavigation() {
           <SideNavigationLink icon={NotificationIcon} title={'Notificaciones'} linkTo={'notifications'} />
           <SideNavigationLink icon={SearchIcon} title={'Buscar'} linkTo={'search'} />
           <SideNavigationLink icon={Configurationicon} title={'Configuración'} linkTo={'settings'} />
-          <SideNavigationLink icon={OpenDoorIcor} title="Cerrar Sesión" linkTo="" />
+          <SideNavigationLink icon={OpenDoorIcor} title="Cerrar Sesión" linkTo="login" />
         </aside>
     )
 }

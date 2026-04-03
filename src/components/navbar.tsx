@@ -20,7 +20,7 @@ export default function NavBar() {
     const router = useRouter()
 
     const [menuState, setMenuState] = useState(false);
-    const [logged, setLogged] = useState(true);
+    const logged = true;
 
     return (
         <>

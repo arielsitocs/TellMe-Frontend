@@ -1,7 +1,10 @@
+import type { StaticImageData } from "next/image"
+
 interface ButtonTypes {
-    icon?: any
+    icon?: StaticImageData | string
     text?: string
     action: () => void
+    type?: "button" | "submit" | "reset"
 }
 
 export default ButtonTypes;

@@ -1,5 +1,7 @@
+import type { StaticImageData } from "next/image"
+
 interface UserDataTypes {
-    image?: any
+    image?: StaticImageData | string | null
     firstName: string
     lastName: string
     description: string
