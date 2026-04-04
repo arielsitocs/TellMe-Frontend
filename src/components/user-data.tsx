@@ -6,10 +6,10 @@ import UserDataTypes from "../types/user-data-types"
 
 import { getInitials } from "../utils/name"
 
-export default function UserData({ image, firstName, lastName, description, posts, followers, following }: UserDataTypes) {
+export default function UserData({ image, firstName, lastName, description, posts, followers, following, color }: UserDataTypes) {
     return (
         <aside className="rounded-lg border border-borders bg-card-background mt-5 overflow-hidden">
-            <div className="h-16 w-full bg-main-purple"></div>
+            <div className="h-16 w-full" style={{ backgroundColor: color }}></div>
             <div className="px-5 pb-8">
                 <div className="-mt-8 mb-3">
                     {image ? (
@@ -21,7 +21,7 @@ export default function UserData({ image, firstName, lastName, description, post
                             className="rounded-full border-4 border-card-background shadow-lg object-cover"
                         />
                     ) : (
-                        <div className="w-16 h-16 flex items-center justify-center text-white font-semibold bg-main-purple rounded-full border-4 border-card-background shadow-lg">
+                        <div className="w-16 h-16 flex items-center justify-center text-white font-semibold rounded-full border-4 border-card-background shadow-lg" style={{ backgroundColor: color }}>
                             {getInitials(firstName, lastName)}
                         </div>
                     )}

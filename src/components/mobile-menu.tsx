@@ -13,7 +13,7 @@ import SearchIcon from "@/public/search-icon.svg";
 import Configurationicon from "@/public/configuration-icon.svg";
 import OpenDoorIcon from "@/public/open-door-icon.svg";
 
-export default function MobileMenu({ image, firstName, lastName, state, setState }: UserDataTypes) {
+export default function MobileMenu({ image, firstName, lastName, color, state, setState }: UserDataTypes) {
     if (!state) return null;
 
     return (
@@ -29,7 +29,7 @@ export default function MobileMenu({ image, firstName, lastName, state, setState
                             className="rounded-full border-4 border-card-background shadow-lg object-cover"
                         />
                     ) : (
-                        <div className="w-16 h-16 flex items-center justify-center text-white font-semibold bg-main-purple rounded-full">
+                        <div className="w-16 h-16 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: color }}>
                             {getInitials(firstName, lastName)}
                         </div>
                     )}

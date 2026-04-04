@@ -7,12 +7,15 @@ import Publishment from "@/src/components/ui/publishment"
 import publications from "@/src/data/publications"
 import PopularPublishment from "@/src/components/popular-publishment"
 import AppInfo from "@/src/components/app-info"
+import { getSoftUserColor } from "@/src/utils/name"
 
 export default function Feed() {
+    const userColor = getSoftUserColor("Juan", "Díaz")
+
     return (
         <main className="grid grid-cols-1 sm:grid-cols-[300px_1fr] xl:grid-cols-[300px_55%_1fr] gap-2 sm:gap-5 pt-13 px-3 py-3">
             <div>
-                <UserData firstName="Juan" lastName="Díaz" description="Desarrollador web · Aprendiendo cada día" posts={142} followers={1.2} following={380} />
+                <UserData firstName="Juan" lastName="Díaz" description="Desarrollador web · Aprendiendo cada día" posts={142} followers={1.2} following={380} color={userColor} />
                 <SideNavigation />
             </div>
             <div className="flex flex-col gap-2 sm:gap-5">

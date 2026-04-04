@@ -4,7 +4,7 @@ import Image from "next/image"
 
 import PublishmentTypes from "@/src/types/publishment-types"
 
-import { getInitials } from "@/src/utils/name";
+import { getInitials, getSoftUserColor } from "@/src/utils/name";
 
 import Button from "./button";
 
@@ -14,10 +14,12 @@ import LikeIcon from "@/public/like-icon.svg";
 import CommentIcon from "@/public/comment-icon.svg";
 
 export default function Publishment({ userImage, firstName, lastName, text, image, likes, comments }: PublishmentTypes) {
+    const userColor = getSoftUserColor(firstName, lastName)
+
     return (
         <div className="flex flex-col p-3 rounded-lg border-1 border-borders bg-card-background">
             <div className="flex w-full mb-2">
-                {userImage ? <Image src={userImage} width={24} height={24} alt="User Picture" /> : <div className="w-12 h-12 flex items-center justify-center text-white font-semibold bg-dark-purple rounded-full">
+                {userImage ? <Image src={userImage} width={24} height={24} alt="User Picture" /> : <div className="w-12 h-12 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: userColor }}>
                     {getInitials(firstName, lastName)}
                 </div>}
                 <div className="ml-3">

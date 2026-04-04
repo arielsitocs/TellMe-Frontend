@@ -15,12 +15,16 @@ import SearchIcon from "@/public/search-icon.svg"
 import NotificationIcon from "@/public/notification-icon.svg";
 
 import AppLogo from "@/public/app-logo.svg";
+import { getInitials, getSoftUserColor } from "../utils/name";
 
 export default function NavBar() {
     const router = useRouter()
 
     const [menuState, setMenuState] = useState(false);
     const logged = true;
+    const firstName = "Juan"
+    const lastName = "Díaz"
+    const userColor = getSoftUserColor(firstName, lastName)
 
     return (
         <>
@@ -39,17 +43,17 @@ export default function NavBar() {
                                 <a className="border-1 border-borders rounded-lg py-1 px-3 hover:bg-main-purple cursor-pointer transition-all" href="/feed">
                                     <Image src={HomeIcon} width={28} height={28} alt="Home Icon" />
                                 </a>
-                                <div className="border-1 border-borders rounded-lg py-1 px-3 hover:bg-main-purple cursor-pointer transition-all">
+                                <a className="border-1 border-borders rounded-lg py-1 px-3 hover:bg-main-purple cursor-pointer transition-all" href="/search">
                                     <Image src={SearchIcon} width={28} height={28} alt="Search Icon" />
-                                </div>
-                                <div className="border-1 border-borders rounded-lg py-1 px-3 hover:bg-main-purple cursor-pointer transition-all">
+                                </a>
+                                <a className="border-1 border-borders rounded-lg py-1 px-3 hover:bg-main-purple cursor-pointer transition-all" href="/notifications">
                                     <Image src={NotificationIcon} width={28} height={28} alt="Notification Icon" />
-                                </div>
+                                </a>
                             </div>
                             <div className="flex items-center ">
                                 <h1 className="mr-2 text-light-gray font-medium text-[14px] hidden sm:flex">Bienvenido, Juan Díaz!</h1>
-                                <div className="w-12 h-12 flex items-center justify-center text-white text-[16px] font-semibold bg-main-purple rounded-full border-4 border-card-background">
-                                    JD
+                                <div className="w-12 h-12 flex items-center justify-center text-white text-[16px] font-semibold rounded-full border-4 border-card-background" style={{ backgroundColor: userColor }}>
+                                    {getInitials(firstName, lastName)}
                                 </div>
                             </div>
                         </>
@@ -60,7 +64,7 @@ export default function NavBar() {
                         </div>
                 }
             </div>
-            <MobileMenu firstName="Juan" lastName="Díaz" description="Desarrollador web apasionado por crear cosas bonitas y funcionales. Aprendiendo cada día. 🚀" posts={142} followers={1.2} following={380} state={menuState} setState={setMenuState} />
+            <MobileMenu firstName={firstName} lastName={lastName} description="Desarrollador web apasionado por crear cosas bonitas y funcionales. Aprendiendo cada día. 🚀" posts={142} followers={1.2} following={380} color={userColor} state={menuState} setState={setMenuState} />
         </>
     )
 }

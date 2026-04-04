@@ -8,6 +8,7 @@ interface UserDataTypes {
     posts: number
     followers: number
     following: number
+    color: string
     state?: boolean
     setState?: (state: boolean) => void
 }

@@ -10,7 +10,7 @@ import Input from "./ui/input";
 
 import { formatName, getInitials } from "../utils/name";
 
-export default function EditProfile({ image, firstName, lastName, description, state, setState }: UserDataTypes) {
+export default function EditProfile({ image, firstName, lastName, description, color, state, setState }: UserDataTypes) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [newFirstName, setNewFirstName] = useState(firstName);
@@ -37,7 +37,7 @@ export default function EditProfile({ image, firstName, lastName, description, s
                                 className="rounded-full object-cover"
                             />
                         ) : (
-                            <div className="w-16 h-16 flex items-center justify-center text-white font-semibold bg-main-purple rounded-full">
+                            <div className="w-16 h-16 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: color }}>
                                 {getInitials(firstName, lastName)}
                             </div>
                         )}

@@ -17,7 +17,7 @@ import EditProfile from "./edit-profile";
 
 import CalendarIcon from "@/public/calendar-icon.svg";
 
-export default function Profile({ image, firstName, lastName, description, posts, followers, following }: UserDataTypes) {
+export default function Profile({ image, firstName, lastName, description, posts, followers, following, color }: UserDataTypes) {
     const [editProfileState, setEditProfileState] = useState(false);
     
     const filteredPubs = publications.filter((publication) => {
@@ -38,7 +38,7 @@ export default function Profile({ image, firstName, lastName, description, posts
                                 className="rounded-full border-4 border-card-background shadow-lg object-cover"
                             />
                         ) : (
-                            <div className="w-16 h-16 flex items-center justify-center text-white font-semibold bg-main-purple rounded-full border-4 border-card-background shadow-lg">
+                            <div className="w-16 h-16 flex items-center justify-center text-white font-semibold rounded-full border-4 border-card-background shadow-lg" style={{ backgroundColor: color }}>
                                 {getInitials(firstName, lastName)}
                             </div>
                         )}
@@ -105,7 +105,7 @@ export default function Profile({ image, firstName, lastName, description, posts
                     ))
                 }
             </div>
-          <EditProfile firstName={firstName} lastName={lastName} description={description} posts={posts} followers={followers} following={following} state={editProfileState} setState={setEditProfileState} />
+                    <EditProfile firstName={firstName} lastName={lastName} description={description} posts={posts} followers={followers} following={following} color={color} state={editProfileState} setState={setEditProfileState} />
         </>
     )
 }
