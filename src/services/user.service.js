@@ -1,0 +1,16 @@
+import { api } from "@/src/lib/axios"
+
+export const getUser = async (id) => {
+    const response = await api.get(`/users/${id}`)
+    return response.data;
+}
+
+export const updateUser = async (id, userData, token) => {
+    const response = await api.patch(`/users/${id}`, userData, {
+        // Se le pasa el token donde se extrae el userid del usuario logueado //
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    return response.data;
+}

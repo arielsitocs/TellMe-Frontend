@@ -12,11 +12,11 @@ export default function PopularPublishment() {
                     publications.map((publication, index) => (
                         <SidePopularPublishment 
                         key={index}
-                        firstName={publication.firstName} 
-                        lastName={publication.lastName} 
-                        text={publication.text} 
+                        firstname={publication.firstname} 
+                        lastname={publication.lastname} 
+                        content={publication.content} 
                         likes={publication.likes} 
-                        comments={publication.comments} />
+                        imageurl={publication.imageurl} />
                     ))
                 }
             </div>

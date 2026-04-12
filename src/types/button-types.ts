@@ -5,6 +5,7 @@ interface ButtonTypes {
     text?: string
     action: () => void
     type?: "button" | "submit" | "reset"
+    disabled?: boolean
 }
 
 export default ButtonTypes;

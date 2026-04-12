@@ -9,15 +9,37 @@ import SearchIcon from "@/public/search-icon.svg";
 import Configurationicon from "@/public/configuration-icon.svg";
 import OpenDoorIcor from "@/public/open-door-icon.svg";
 
+import { useAuth } from "../context/auth-context";
+
+import { useRouter } from "next/navigation";
+
 export default function SideNavigation() {
-    return (
-        <aside className="hidden sm:block bg-card-background border-1 border-borders mt-3 rounded-lg">
-          <SideNavigationLink icon={HomeIcon} title={'Inicio'} linkTo={'feed'} />
-          <SideNavigationLink icon={ProfileIcon} title={'Perfil'} linkTo={'profile'} />
-          <SideNavigationLink icon={NotificationIcon} title={'Notificaciones'} linkTo={'notifications'} />
-          <SideNavigationLink icon={SearchIcon} title={'Buscar'} linkTo={'search'} />
-          <SideNavigationLink icon={Configurationicon} title={'Configuración'} linkTo={'settings'} />
-          <SideNavigationLink icon={OpenDoorIcor} title="Cerrar Sesión" linkTo="login" />
-        </aside>
-    )
+  const router = useRouter();
+  
+  const auth = useAuth() as unknown as {
+    user?: {
+      userid?: number
+    } | null
+    token?: string | null
+  }
+  
+  const user = auth?.user
+  
+  const { clearSession } = useAuth() as unknown as { clearSession: () => void }
+  
+  const closeSession = () => {
+    clearSession();
+    router.push('/login')
+  }
+
+  return (
+    <aside className="hidden sm:block bg-card-background border-1 border-borders mt-3 rounded-lg">
+      <SideNavigationLink icon={HomeIcon} title={'Inicio'} linkTo={'feed'} />
+      <SideNavigationLink icon={ProfileIcon} title={'Perfil'} linkTo={`profile/${user?.userid}`} />
+      <SideNavigationLink icon={NotificationIcon} title={'Notificaciones'} linkTo={'notifications'} />
+      <SideNavigationLink icon={SearchIcon} title={'Buscar'} linkTo={'search'} />
+      <SideNavigationLink icon={Configurationicon} title={'Configuración'} linkTo={'settings'} />
+      <SideNavigationLink icon={OpenDoorIcor} title="Cerrar Sesión" linkTo="login" action={closeSession} />
+    </aside>
+  )
 }

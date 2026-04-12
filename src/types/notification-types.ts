@@ -1,10 +1,10 @@
 import type { StaticImageData } from "next/image"
 
 interface NotificationTypes {
-    image?: StaticImageData | string | null
-    firstName: string
-    lastName: string
-    type: 'Like' | 'Follower' | 'Commentary'
+    imageurl?: StaticImageData | string | null
+    firstname: string
+    lastname: string
+    type: 'like' | 'follower' | 'commentary'
 }
 
 export default NotificationTypes;

@@ -2,34 +2,34 @@ import type NotificationTypes from "@/src/types/notification-types"
 
 const notifications: NotificationTypes[] = [
     {
-        image: null,
-        firstName: "Juan",
-        lastName: "Diaz",
-        type: "Like"
+        imageurl: null,
+        firstname: "Juan",
+        lastname: "Diaz",
+        type: "like"
     },
     {
-        image: null,
-        firstName: "Camila",
-        lastName: "Rojas",
-        type: "Follower"
+        imageurl: null,
+        firstname: "Camila",
+        lastname: "Rojas",
+        type: "follower"
     },
     {
-        image: null,
-        firstName: "Andres",
-        lastName: "Vega",
-        type: "Commentary"
+        imageurl: null,
+        firstname: "Andres",
+        lastname: "Vega",
+        type: "commentary"
     },
     {
-        image: null,
-        firstName: "Laura",
-        lastName: "Mendoza",
-        type: "Like"
+        imageurl: null,
+        firstname: "Laura",
+        lastname: "Mendoza",
+        type: "like"
     },
     {
-        image: null,
-        firstName: "Diego",
-        lastName: "Paredes",
-        type: "Follower"
+        imageurl: null,
+        firstname: "Diego",
+        lastname: "Paredes",
+        type: "follower"
     }
 ]
 

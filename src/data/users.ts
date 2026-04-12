@@ -2,9 +2,11 @@ import type UserDataTypes from "@/src/types/user-data-types"
 
 const users: UserDataTypes[] = [
     {
-        image: null,
-        firstName: "Maria",
-        lastName: "Lopez",
+        userid: 1,
+        imageurl: null,
+        firstname: "Maria",
+        lastname: "Lopez",
+        username: "marialopez",
         description: "Diseñadora UI enfocada en interfaces claras y modernas.",
         posts: 84,
         followers: 320,
@@ -12,9 +14,11 @@ const users: UserDataTypes[] = [
         color: "#1F7A68"
     },
     {
-        image: null,
-        firstName: "Carlos",
-        lastName: "Vega",
+        userid: 2,
+        imageurl: null,
+        firstname: "Carlos",
+        lastname: "Vega",
+        username: "carlosvega",
         description: "Frontend developer que disfruta pulir detalles visuales.",
         posts: 112,
         followers: 210,
@@ -22,9 +26,11 @@ const users: UserDataTypes[] = [
         color: "#A3572F"
     },
     {
-        image: null,
-        firstName: "Sofia",
-        lastName: "Herrera",
+        userid: 3,
+        imageurl: null,
+        firstname: "Sofia",
+        lastname: "Herrera",
+        username: "sofiaherrera",
         description: "Creadora de contenido digital y amante del buen diseño.",
         posts: 57,
         followers: 180,
@@ -32,9 +38,11 @@ const users: UserDataTypes[] = [
         color: "#4A56A6"
     },
     {
-        image: null,
-        firstName: "Andres",
-        lastName: "Ruiz",
+        userid: 4,
+        imageurl: null,
+        firstname: "Andres",
+        lastname: "Ruiz",
+        username: "andresruiz",
         description: "Product designer centrado en experiencias simples y fluidas.",
         posts: 96,
         followers: 95,
@@ -42,9 +50,11 @@ const users: UserDataTypes[] = [
         color: "#2E7D5B"
     },
     {
-        image: null,
-        firstName: "Laura",
-        lastName: "Mendoza",
+        userid: 5,
+        imageurl: null,
+        firstname: "Laura",
+        lastname: "Mendoza",
+        username: "lauramendoza",
         description: "Community manager con foco en crecimiento orgánico.",
         posts: 63,
         followers: 275,
@@ -52,9 +62,11 @@ const users: UserDataTypes[] = [
         color: "#7B3E8B"
     },
     {
-        image: null,
-        firstName: "Diego",
-        lastName: "Paredes",
+        userid: 6,
+        imageurl: null,
+        firstname: "Diego",
+        lastname: "Paredes",
+        username: "diegoparedes",
         description: "Desarrollador full stack construyendo productos utiles.",
         posts: 140,
         followers: 410,

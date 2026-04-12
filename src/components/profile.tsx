@@ -1,27 +1,92 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Image from "next/image";
 
 import { getInitials, formatName } from "../utils/name";
 
+import { useParams } from "next/navigation";
+
+import { getUser } from "@/src/services/user.service"
+
+import { getPublications as fetchPublications } from "@/src/services/publications.service"
+
+import { useAuth } from "../context/auth-context";
+
 import UserDataTypes from "../types/user-data-types";
 
-import publications from "../data/publications";
-
-import Publishment from "./ui/publishment";
+import Publishment from "./ui/publication";
 import Button from "./ui/button";
 
 import EditProfile from "./edit-profile";
 
 import CalendarIcon from "@/public/calendar-icon.svg";
 
-export default function Profile({ image, firstName, lastName, description, posts, followers, following, color }: UserDataTypes) {
+export default function Profile({ userid, imageurl, firstname, lastname, username, description, posts, followers, following, color }: UserDataTypes) {
     const [editProfileState, setEditProfileState] = useState(false);
-    
+    const [publications, setPublications] = useState<any[]>([]);
+    const [paramsUser, setParamsUser] = useState<any>(null);
+
+    const auth = useAuth() as unknown as {
+        user?: {
+            userid?: number
+        } | null
+        token?: string | null
+    }
+
+    const loggedUserId = auth?.user?.userid;
+
+    const params = useParams();
+
+    const ParamsUserId = params.userid as string;
+
+    const loadPublications = async () => {
+        try {
+            const data = await fetchPublications();
+            setPublications(data)
+        } catch (error: any) {
+            throw new Error(error)
+        }
+    }
+
+    // Obtiene el usuario por parametro si es que lo hay //
+    const findUser = async () => {
+        try {
+            if (ParamsUserId) {
+                const foundUser = await getUser(ParamsUserId);
+                if (!foundUser) {
+                    throw new Error('Usuario no encontrado.')
+                }
+                setParamsUser(foundUser);
+                return;
+            }
+            console.error('ID de usuario no proporcionado.')
+        } catch (error: any) {
+            throw new Error('Error al encontrar el usuario: ', error)
+        }
+    }
+
+    useEffect(() => {
+        findUser();
+        loadPublications();
+    }, [ParamsUserId])
+
+    // Obtiene los datos del usuario parametrico, si no hay, usa los datos del usuario propio //
+    const profileUserid = paramsUser?.userid ?? userid;
+    const profileImageurl = paramsUser?.imageurl ?? imageurl;
+    const profileFirstname = paramsUser?.firstname ?? firstname;
+    const profileLastname = paramsUser?.lastname ?? lastname;
+    const profileUsername = paramsUser?.username ?? username;
+    const profileDescription = paramsUser?.description ?? description;
+    const profilePosts = paramsUser?.posts ?? posts;
+    const profileFollowers = paramsUser?.followers ?? followers;
+    const profileFollowing = paramsUser?.following ?? following;
+    const profileColor = paramsUser?.color ?? color;
+
+    // Filtra las publicaciones del usuario //
     const filteredPubs = publications.filter((publication) => {
-        return publication.firstName === firstName && publication.lastName === lastName
+        return publication.userid === profileUserid
     })
 
     return (
@@ -29,28 +94,35 @@ export default function Profile({ image, firstName, lastName, description, posts
             <div className="rounded-lg w-full border border-borders bg-card-background mt-0 sm:mt-5 px-5 py-3 overflow-hidden">
                 <div>
                     <div className="flex items-center mb-3">
-                        {image ? (
+                        {profileImageurl ? (
                             <Image
-                                src={image}
+                                src={profileImageurl}
                                 width={64}
                                 height={64}
                                 alt="User Picture"
                                 className="rounded-full border-4 border-card-background shadow-lg object-cover"
                             />
                         ) : (
-                            <div className="w-16 h-16 flex items-center justify-center text-white font-semibold rounded-full border-4 border-card-background shadow-lg" style={{ backgroundColor: color }}>
-                                {getInitials(firstName, lastName)}
+                            <div className="w-16 h-16 flex items-center justify-center text-white font-semibold rounded-full border-4 border-card-background shadow-lg" style={{ backgroundColor: profileColor }}>
+                                {getInitials(profileFirstname, profileLastname)}
                             </div>
                         )}
-                        <div className="ml-auto">
-                            <Button text="Editar Perfil" action={() => setEditProfileState(true)} />
-                        </div>
+                        {
+                            Number(ParamsUserId) !== loggedUserId ?
+                                null
+                                :
+                                <div className="ml-auto">
+                                    <Button text="Editar Perfil" action={() => setEditProfileState(true)} />
+                                </div>
+
+                        }
+
                     </div>
 
                     <div className="mb-5">
-                        <h1 className="text-white font-semibold text-lg">{firstName} {lastName}</h1>
-                        <h3 className="text-sm text-terciary-text mb-3">{formatName(firstName, lastName)}</h3>
-                        <p className="text-gray-text font-medium text-sm leading-tight">{description}</p>
+                        <h1 className="text-white font-semibold text-lg">{profileFirstname} {profileLastname}</h1>
+                        <h3 className="text-sm text-terciary-text mb-3">{formatName(profileFirstname, profileLastname)}</h3>
+                        <p className="text-gray-text font-medium text-sm leading-tight">{profileDescription}</p>
                     </div>
 
                     <div className="flex mb-4">
@@ -58,17 +130,17 @@ export default function Profile({ image, firstName, lastName, description, posts
                         <p className="text-sm text-terciary-text ml-1">se unió en enero de 2025</p>
                     </div>
 
-                    <div className="flex text-white gap-5 border-t-1 border-borders pt-4 ">
+                    <div className="flex text-white gap-5 border-t-1 border-borders pt-4 text-center">
                         <div className="text-center">
-                            <h1 className="font-bold">{posts}</h1>
+                            <h1 className="font-bold">{profilePosts}</h1>
                             <span className="text-terciary-text">posts</span>
                         </div>
                         <div>
-                            <h1 className="font-bold">{followers}k</h1>
+                            <h1 className="font-bold">{profileFollowers}</h1>
                             <span className="text-terciary-text">seguidores</span>
                         </div>
                         <div>
-                            <h1 className="font-bold">{following}</h1>
+                            <h1 className="font-bold">{profileFollowing}</h1>
                             <span className="text-terciary-text text-sm">siguiendo</span>
                         </div>
                     </div>
@@ -93,19 +165,20 @@ export default function Profile({ image, firstName, lastName, description, posts
                 {
                     filteredPubs.map((publication, index) => (
                         <Publishment
-                            key={`${publication.firstName}-${publication.lastName}-${index}`}
-                            userImage={publication.userImage}
-                            firstName={publication.firstName}
-                            lastName={publication.lastName}
-                            text={publication.text}
-                            image={publication.image}
+                            key={index}
+                            publicationid={publication.publicationid}
+                            userid={publication.userid}
+                            content={publication.content}
+                            imageurl={publication.imageurl}
                             likes={publication.likes}
                             comments={publication.comments}
                         />
                     ))
                 }
             </div>
-                    <EditProfile firstName={firstName} lastName={lastName} description={description} posts={posts} followers={followers} following={following} color={color} state={editProfileState} setState={setEditProfileState} />
+            <EditProfile userid={profileUserid} imageurl={profileImageurl} firstname={profileFirstname} lastname={profileLastname} username={profileUsername} description={profileDescription} posts={profilePosts} followers={profileFollowers} following={profileFollowing} color={profileColor} state={editProfileState} setState={setEditProfileState} />
+            { /* PERFIL PARAMETRICO */}
         </>
+
     )
 }

@@ -1,12 +1,14 @@
 import type { StaticImageData } from "next/image"
 
 interface PublishmentTypes {
-    userImage?: StaticImageData | string | null
-    firstName: string
-    lastName: string
-    text: string
-    image?: StaticImageData | string | null
+    publicationid?: number
+    userid?: number
+    firstname?: string
+    lastname?: string
+    content: string
+    imageurl?: StaticImageData | string | null
     likes: number
+    usercolor?: string
     comments: []
 }
 

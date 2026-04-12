@@ -16,9 +16,10 @@
   --page-background: #1C1C1C;
   --card-background: #2A2A2A;
   --light-gray-background: #1F1F1F;
-  --alternative-card-background: rgb(30, 28, 28);
+  --alternative-card-background: #1e1c1c;
   --light-card-background: #3A3A3A;
-  --borders: rgba(255,255,255,0.08);
+  --lighter-card-background: #333333a6;
+  --borders: #ffffff14;
   --main-text: #F0F0F0;
   --secondary-text: #9B9B9B;
   --terciary-text: #666666;
@@ -41,6 +42,7 @@
   --color-page-background: var(--page-background);
   --color-card-background: var(--card-background);
   --color-light-gray-background: var(--light-gray-background);
+  --color-lighter-card-background: var(--lighter-card-background);
   --color-alternative-card-background: var(--alternative-card-background);
   --color-light-card-background: var(--light-card-background);
   --color-borders: var(--borders);

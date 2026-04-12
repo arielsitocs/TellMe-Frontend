@@ -13,16 +13,16 @@ import SearchIcon from "@/public/search-icon.svg";
 import Configurationicon from "@/public/configuration-icon.svg";
 import OpenDoorIcon from "@/public/open-door-icon.svg";
 
-export default function MobileMenu({ image, firstName, lastName, color, state, setState }: UserDataTypes) {
+export default function MobileMenu({ imageurl, firstname, lastname, color, state, setState }: UserDataTypes) {
     if (!state) return null;
 
     return (
         <div className="flex flex-col sm:hidden fixed top-18 left-1/2 -translate-x-1/2 w-[95%] bg-alternative-card-background shadow-lg rounded-lg p-3">
             <div className="border-b-1 border-borders">
                 <div className="flex items-center mb-3">
-                    {image ? (
+                    {imageurl ? (
                         <Image
-                            src={image}
+                            src={imageurl}
                             width={64}
                             height={64}
                             alt="User Picture"
@@ -30,12 +30,12 @@ export default function MobileMenu({ image, firstName, lastName, color, state, s
                         />
                     ) : (
                         <div className="w-16 h-16 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: color }}>
-                            {getInitials(firstName, lastName)}
+                            {getInitials(firstname, lastname)}
                         </div>
                     )}
                     <div className="ml-2">
-                        <h1 className="text-white font-medium">{firstName} {lastName}</h1>
-                        <p className="text-sm text-terciary-text">{formatName(firstName, lastName)}</p>
+                        <h1 className="text-white font-medium">{firstname} {lastname}</h1>
+                        <p className="text-sm text-terciary-text">{formatName(firstname, lastname)}</p>
                     </div>
                 </div>
             </div>

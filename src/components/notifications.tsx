@@ -14,7 +14,7 @@ export default function Notifications() {
             <div className="flex flex-col">
                 {
                     notifications.map((n, index) => (
-                        <Notification key={`${n.firstName}-${n.lastName}-${index}`} firstName={n.firstName} lastName={n.lastName} type={n.type} />
+                        <Notification key={`${n.firstname}-${n.lastname}-${index}`} imageurl={n.imageurl} firstname={n.firstname} lastname={n.lastname} type={n.type} />
                     ))
                 }
             </div>

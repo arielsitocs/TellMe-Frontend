@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+// Proporciona todas las variables y funcionces del contexto //
+import { AuthProvider } from "../context/auth-context";
 
 import NavBar from "../components/navbar";
 
@@ -25,10 +27,13 @@ export default function RootLayout({
       lang="es"
       className={`${inter.variable} h-full bg-page-background antialiased`}
     >
+
       <body className="min-h-full flex flex-col">
-        <NavBar />
-        {children}
+        <AuthProvider>
+          <NavBar />
+          {children}
+        </AuthProvider>
       </body>
-    </html>
+    </html >
   );
 }

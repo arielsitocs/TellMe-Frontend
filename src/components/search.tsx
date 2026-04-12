@@ -15,10 +15,10 @@ export default function Search() {
                 {
                     users.map((user, index) => (
                         <User
-                            key={`${user.firstName}-${user.lastName}-${index}`}
-                            image={user.image}
-                            firstName={user.firstName}
-                            lastName={user.lastName}
+                            key={`${user.firstname}-${user.lastname}-${index}`}
+                            imageurl={user.imageurl}
+                            firstname={user.firstname}
+                            lastname={user.lastname}
                             description={user.description}
                             posts={user.posts}
                             followers={user.followers}
