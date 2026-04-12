@@ -7,6 +7,10 @@ import UserDataTypes from "../types/user-data-types"
 import { getInitials } from "../utils/name"
 
 export default function UserData({ imageurl, firstname, lastname, description, posts, followers, following, color }: UserDataTypes) {
+    const postsCount = posts ?? 0
+    const followersCount = followers ?? 0
+    const followingCount = following ?? 0
+
     return (
         <aside className="rounded-lg border border-borders bg-card-background mt-5 overflow-hidden">
             <div className="h-16 w-full" style={{ backgroundColor: color }}></div>
@@ -34,15 +38,15 @@ export default function UserData({ imageurl, firstname, lastname, description, p
 
                 <div className="flex text-white gap-5 text-center">
                     <div className="text-center">
-                        <h1 className="font-bold">{posts}</h1>
+                        <h1 className="font-bold">{postsCount}</h1>
                         <span className="text-terciary-text">posts</span>
                     </div>
                     <div>
-                        <h1 className="font-bold">{followers}{followers > 0 ? 'k' : ''}</h1>
+                        <h1 className="font-bold">{followersCount}{followersCount > 0 ? 'k' : ''}</h1>
                         <span className="text-terciary-text">seguidores</span>
                     </div>
                     <div>
-                        <h1 className="font-bold">{following}</h1>
+                        <h1 className="font-bold">{followingCount}</h1>
                         <span className="text-terciary-text text-sm">siguiendo</span>
                     </div>
                 </div>

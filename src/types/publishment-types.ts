@@ -9,7 +9,7 @@ interface PublishmentTypes {
     imageurl?: StaticImageData | string | null
     likes: number
     usercolor?: string
-    comments: []
+    comments?: []
 }
 
 export default PublishmentTypes;

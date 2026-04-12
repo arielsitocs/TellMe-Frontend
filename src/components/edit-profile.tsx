@@ -22,13 +22,13 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
     const [newFirstname, setNewFirstname] = useState(firstname);
     const [newLastname, setNewLastname] = useState(lastname);
     const [newDescription, setNewDescription] = useState(description);
-    const [newUsername, setNewUsername] = useState(username);
+    const [newUsername, setNewUsername] = useState(username ?? "");
 
     useEffect(() => {
         setNewFirstname(firstname);
         setNewLastname(lastname);
         setNewDescription(description);
-        setNewUsername(username);
+        setNewUsername(username ?? "");
     }, [firstname, lastname, description, username, state]);
 
     const patchProfile = async (e: React.FormEvent<HTMLFormElement>) => {
