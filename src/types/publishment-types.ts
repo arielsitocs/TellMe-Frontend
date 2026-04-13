@@ -9,6 +9,7 @@ interface PublishmentTypes {
     imageurl?: StaticImageData | string | null
     likes: number
     usercolor?: string
+    onDelete?: any
     comments?: []
 }
 

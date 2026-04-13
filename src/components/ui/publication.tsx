@@ -18,6 +18,8 @@ import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/src/context/auth-context";
 
+import { deletePublication as removePublication } from "@/src/services/publications.service";
+
 import Button from "./button";
 import Commentary from "./commentary";
 import PublicationMenu from "./publication-menu";
@@ -34,7 +36,7 @@ type PublicationUser = {
     color?: string
 }
 
-export default function Publication({ publicationid, userid, content, imageurl, likes, comments }: PublishmentTypes) {
+export default function Publication({ publicationid, userid, content, imageurl, likes, comments, onDelete }: PublishmentTypes) {
     const [user, setUser] = useState<PublicationUser | null>(null);
     const [commentaryContent, setCommentaryContent] = useState('');
     const [commentaries, setCommentaries] = useState<any[]>([]);
@@ -44,6 +46,7 @@ export default function Publication({ publicationid, userid, content, imageurl, 
     const [localLikes, setLocalLikes] = useState(likes ?? 0);
     const [liked, setLiked] = useState(false);
     const [isSubmittingLike, setIsSubmittingLike] = useState(false);
+    const [loaderState, setLoaderState] = useState(false);
 
     const router = useRouter();
 
@@ -70,6 +73,22 @@ export default function Publication({ publicationid, userid, content, imageurl, 
     const filterCommentaries = () => {
         const filtered = commentaries.filter((commentary) => commentary.publicationid === publicationid)
         setFilteredCommentaries(filtered);
+    }
+
+    const deletePublication = async () => {
+        try {
+            setLoaderState(true)
+            await removePublication(publicationid, token);
+            // Esto borra el componente del DOM inmediatamente //
+            if (onDelete) {
+                onDelete(publicationid);
+            }
+            setMenuState(false);
+        } catch (error) {
+            console.error('Error al eliminar la publicacion: ', error);
+        } finally {
+            setLoaderState(false);
+        }
     }
 
     // Verifica que el like del usuario exista en al publicacion //
@@ -147,9 +166,15 @@ export default function Publication({ publicationid, userid, content, imageurl, 
                             <p className="text-gray-text text-sm">hace 5 minutos</p>
                         </div>
                     </div>
-                    <div className="ml-auto pt-2">
-                        <Image src={VerticalMenuIcon} width={24} height={24} alt="Menu Icon" className="hover:opacity-80 cursor-pointer" onClick={() => setMenuState(!menuState)} />
-                    </div>
+                    {
+                        loggedUser?.userid !== userid ?
+                            null
+                            :
+                            <div className="ml-auto pt-2">
+                                <Image src={VerticalMenuIcon} width={24} height={24} alt="Menu Icon" className="hover:opacity-80 cursor-pointer" onClick={() => setMenuState(!menuState)} />
+                            </div>
+                    }
+
                 </div>
                 <div className="flex">
                     <p className="text-main-text text-[14px]">{content}</p>
@@ -201,7 +226,7 @@ export default function Publication({ publicationid, userid, content, imageurl, 
                         null
                 }
                 {/* Seccion de menu */}
-                <PublicationMenu state={menuState} setState={setMenuState} id={publicationid ?? 616} />
+                <PublicationMenu state={menuState} setState={setMenuState} deletePublication={() => deletePublication()} />
             </div>
         </>
     )

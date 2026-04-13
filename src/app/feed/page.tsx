@@ -6,7 +6,7 @@ import ContentPublish from "@/src/components/content-publish"
 import Publishment from "@/src/components/ui/publication"
 import PopularPublishment from "@/src/components/popular-publishment"
 import AppInfo from "@/src/components/app-info"
-import Loader from "@/src/components/ui/loader" 
+import Loader from "@/src/components/ui/loader"
 
 import { useEffect, useState } from "react"
 
@@ -54,30 +54,42 @@ export default function Feed() {
         }
     }
 
+    // Funcion que filtra de inmediato las publicaciones al borrar una, mostrando el resultado al momento aunque no haya terminado //
+    const handleDeleteFromState = (id: number) => {
+        setPublications(prev => prev.filter(p => p.publicationid !== id));
+    };
+
     useEffect(() => {
         loadPublications()
     }, [])
 
     return (
         <main className="grid grid-cols-1 sm:grid-cols-[300px_1fr] xl:grid-cols-[300px_55%_1fr] gap-2 sm:gap-5 pt-13 px-3 py-3">
-            {loaderState && <Loader state={loaderState} setState={setLoaderState} />}
             <div>
                 <UserData userid={userid} firstname={firstname} lastname={lastname} username={username} description={description} posts={posts} followers={followers} following={following} color={color} />
                 <SideNavigation />
             </div>
             <div className="flex flex-col gap-2 sm:gap-5">
                 <ContentPublish />
-                {publications.map((publication, index) => (
-                    <Publishment
-                        key={index}
-                        publicationid={publication.publicationid}
-                        userid={publication.userid}
-                        content={publication.content}
-                        imageurl={publication.imageurl}
-                        likes={publication.likes}
-                        comments={publication.comments}
-                    />
-                ))}
+                {loaderState && <Loader state={loaderState} setState={setLoaderState} />}
+                {
+                    publications.length === 0 ?
+                        <div className="w-full py-15 rounded-lg bg-card-background text-main-text text-center">
+                            <h1>No hay publicaciones creadas!</h1>
+                        </div>
+                        :
+                        publications.map((publication, index) => (
+                            <Publishment
+                                key={index}
+                                publicationid={publication.publicationid}
+                                userid={publication.userid}
+                                content={publication.content}
+                                imageurl={publication.imageurl}
+                                likes={publication.likes}
+                                comments={publication.comments}
+                                onDelete={handleDeleteFromState}
+                            />
+                        ))}
             </div>
             <div className="flex flex-col gap-2 sm:gap-5">
                 <PopularPublishment />
