@@ -7,7 +7,10 @@ export default function Button({ icon, text, delete: isDelete, action, type, dis
         <button
             type={type}
             disabled={disabled}
-            onClick={() => action()}
+            onClick={() => {
+                console.log('CLICK!');
+                action();
+            }}
             className={`flex justify-center py-2 px-6 rounded-lg border-1 border-borders transition-all ${disabled ? 'opacity-60 cursor-not-allowed' : 'opacity-100 hover:bg-main-purple cursor-pointer'}`}
         >
             {icon ? <Image src={icon} width={20} height={20} alt="Button Icon" /> : null}
