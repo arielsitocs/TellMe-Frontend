@@ -28,14 +28,13 @@ export default function Login() {
     const login = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        setLoaderState(true);
-
         if (email === '' || password === '') {
             setError('Debes ingresar credenciales')
             return null;
         }
 
         try {
+            setLoaderState(true);
             const data = await loginService(email, password) // Realiza la peticion a login y retorna el token y el usuario //
             saveSession(data) // Guarda el token y usuario en el contexto //
             router.push('/feed')
