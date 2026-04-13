@@ -24,6 +24,15 @@ export const updatePublication = async (id, publicationData, token) => {
     return response.data;
 }
 
+export const deletePublication = async (id, token) => {
+    const response = api.delete(`/publications/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return response.data;
+}
+
 // SERVICIOS DE LIKES //
 
 export const getLikes = async () => {

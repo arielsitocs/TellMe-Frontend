@@ -18,6 +18,7 @@ import UserDataTypes from "../types/user-data-types";
 
 import Publishment from "./ui/publication";
 import Button from "./ui/button";
+import Loader from "../components/ui/loader";
 
 import EditProfile from "./edit-profile";
 
@@ -27,6 +28,7 @@ export default function Profile({ userid, imageurl, firstname, lastname, usernam
     const [editProfileState, setEditProfileState] = useState(false);
     const [publications, setPublications] = useState<any[]>([]);
     const [paramsUser, setParamsUser] = useState<any>(null);
+    const [loaderState, setLoaderState] = useState(false);
 
     const auth = useAuth() as unknown as {
         user?: {
@@ -42,11 +44,14 @@ export default function Profile({ userid, imageurl, firstname, lastname, usernam
     const ParamsUserId = params.userid as string;
 
     const loadPublications = async () => {
+        setLoaderState(true);
         try {
             const data = await fetchPublications();
             setPublications(data)
         } catch (error: any) {
             throw new Error(error)
+        } finally {
+            setLoaderState(false);
         }
     }
 

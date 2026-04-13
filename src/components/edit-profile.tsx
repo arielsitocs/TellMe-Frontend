@@ -8,6 +8,7 @@ import { useAuth } from "../context/auth-context";
 import Image from "next/image";
 
 import Input from "./ui/input";
+import Loader from "./ui/loader";
 
 import { getInitials } from "../utils/name";
 
@@ -24,6 +25,8 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
     const [newDescription, setNewDescription] = useState(description);
     const [newUsername, setNewUsername] = useState(username ?? "");
 
+    const [loaderState, setLoaderState] = useState(false);
+
     useEffect(() => {
         setNewFirstname(firstname);
         setNewLastname(lastname);
@@ -33,7 +36,7 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
 
     const patchProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        setLoaderState(true);
         try {
             const updatedUser = {
                 email: user?.email ?? "",
@@ -61,6 +64,8 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
             setState?.(false)
         } catch (error) {
             console.error(error)
+        } finally {
+            setLoaderState(false);
         }
     }
 
@@ -108,10 +113,7 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
                     <p className="text-sm text-terciary-text">tu perfil: tellme.app/{newUsername}</p>
                 </div>
                 <textarea value={newDescription} onChange={(e) => setNewDescription(e.target.value)} className="text-gray-text bg-card-background p-2 rounded-lg border-1 border-borders w-full min-h-25 resize-none" />
-                <div className="flex gap-3 mt-5 ml-auto text-white font-medouim">
-                    <button className="px-4 py-1 border-1 border-borders rounded-full hover:opacity-80 cursor-pointer transition-all" onClick={() => setState?.(false)}>Cancelar</button>
-                    <button type="submit" className="px-4 py-1 bg-main-purple rounded-full hover:opacity-80 cursor-pointer transition-all">Guardar cambios</button>
-                </div>
+                {loaderState ? <Loader state={loaderState} setState={setLoaderState} /> : <button type="submit" className="px-4 py-1 bg-main-purple rounded-full hover:opacity-80 cursor-pointer transition-all">Guardar cambios</button>}
             </form>
         </div>
     )

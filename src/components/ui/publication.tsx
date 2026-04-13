@@ -20,6 +20,7 @@ import { useAuth } from "@/src/context/auth-context";
 
 import Button from "./button";
 import Commentary from "./commentary";
+import PublicationMenu from "./publication-menu";
 
 import VerticalMenuIcon from "@/public/vertical-menu-icon.svg";
 import LikeIconFilled from "@/public/like-icon-filled.svg";
@@ -37,8 +38,9 @@ export default function Publication({ publicationid, userid, content, imageurl, 
     const [user, setUser] = useState<PublicationUser | null>(null);
     const [commentaryContent, setCommentaryContent] = useState('');
     const [commentaries, setCommentaries] = useState<any[]>([]);
-    const [filteredCommentaries, setFilteredCommentaries] = useState<any[]>([])
+    const [filteredCommentaries, setFilteredCommentaries] = useState<any[]>([]);
     const [commentarySection, setCommentarySection] = useState(false);
+    const [menuState, setMenuState] = useState(false);
     const [localLikes, setLocalLikes] = useState(likes ?? 0);
     const [liked, setLiked] = useState(false);
     const [isSubmittingLike, setIsSubmittingLike] = useState(false);
@@ -133,70 +135,74 @@ export default function Publication({ publicationid, userid, content, imageurl, 
     }, [commentaries, publicationid])
 
     return (
-        <div className="flex flex-col p-3 rounded-lg border-1 border-borders bg-card-background">
-            <div className="flex">
-                <div className="flex items-center w-fit mb-2 rounded-lg hover:opacity-70 cursor-pointer" onClick={() => navigateToUser(userid)}>
-                    {user?.imageurl ? <Image src={user?.imageurl} width={24} height={24} alt="User Picture" /> : <div className="w-12 h-12 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: user?.color }}>
-                        {getInitials(user?.firstname ?? 'U', user?.lastname ?? '')}
-                    </div>}
-                    <div className="ml-3">
-                        <h1 className="text-white">{user?.firstname} {user?.lastname}</h1>
-                        <p className="text-gray-text text-sm">hace 5 minutos</p>
+        <>
+            <div className="flex flex-col relative p-3 rounded-lg border-1 border-borders bg-card-background">
+                <div className="flex">
+                    <div className="flex items-center w-fit mb-2 rounded-lg hover:opacity-70 cursor-pointer" onClick={() => navigateToUser(userid)}>
+                        {user?.imageurl ? <Image src={user?.imageurl} width={24} height={24} alt="User Picture" /> : <div className="w-12 h-12 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: user?.color }}>
+                            {getInitials(user?.firstname ?? 'U', user?.lastname ?? '')}
+                        </div>}
+                        <div className="ml-3">
+                            <h1 className="text-white">{user?.firstname} {user?.lastname}</h1>
+                            <p className="text-gray-text text-sm">hace 5 minutos</p>
+                        </div>
+                    </div>
+                    <div className="ml-auto pt-2">
+                        <Image src={VerticalMenuIcon} width={24} height={24} alt="Menu Icon" className="hover:opacity-80 cursor-pointer" onClick={() => setMenuState(!menuState)} />
                     </div>
                 </div>
-                <div className="ml-auto pt-2">
-                    <Image src={VerticalMenuIcon} width={24} height={24} alt="Menu Icon" className="hover:opacity-80 cursor-pointer" />
+                <div className="flex">
+                    <p className="text-main-text text-[14px]">{content}</p>
                 </div>
-            </div>
-            <div className="flex">
-                <p className="text-main-text text-[14px]">{content}</p>
-            </div>
-            {imageurl && (
-                <div className="w-full h-60 mt-3 rounded-lg border-1 border-borders bg-light-card-background flex items-center justify-center">
-                    <Image src={imageurl} width={64} height={64} alt="Post image" />
+                {imageurl && (
+                    <div className="w-full h-60 mt-3 rounded-lg border-1 border-borders bg-light-card-background flex items-center justify-center">
+                        <Image src={imageurl} width={64} height={64} alt="Post image" />
+                    </div>
+                )}
+                <div className="flex gap-3 mt-3">
+                    <Button icon={liked ? LikeIconFilled : LikeIcon} text={`${localLikes} me gusta`} action={toggleLike} disabled={isSubmittingLike} />
+                    <Button icon={CommentIcon} text={`${filteredCommentaries?.length} ${filteredCommentaries.length === 1 ? 'comentario' : 'comentarios'}`} action={() => setCommentarySection(!commentarySection)} />
                 </div>
-            )}
-            <div className="flex gap-3 mt-3">
-                <Button icon={liked ? LikeIconFilled : LikeIcon} text={`${localLikes} me gusta`} action={toggleLike} disabled={isSubmittingLike} />
-                <Button icon={CommentIcon} text={`${filteredCommentaries?.length} ${filteredCommentaries.length === 1 ? 'comentario' : 'comentarios'}`} action={() => setCommentarySection(!commentarySection)} />
-            </div>
-            {/* Seccion de comentarios  */}
-            {
-                commentarySection ?
-                    <div className="rounded-lg bg-card-background text-main-text border-borders mt-2">
-                        <div className="flex justify-between border-b-1 border-borders pb-6 pt-6">
-                            <h1 className="font-medium">Comentarios</h1>
-                            <h1 className="hover:opacity-60 cursor-pointer mr-5" onClick={() => setCommentarySection(false)} >x</h1>
-                        </div>
-                        <div className="flex flex-col gap-5 pt-5 pb-5 border-b-1 border-borders ">
-
-                            {
-                                filteredCommentaries.length === 0 ?
-                                    <div>
-                                        <h1 className="text-gray-text">No hay comentarios en esta publicación!</h1>
-                                    </div>
-                                    :
-                                    filteredCommentaries
-                                        .map((commentary) => (
-                                            <Commentary key={commentary.commentaryid} userid={commentary.userid} content={commentary.content} />
-                                        ))
-                            }
-                        </div>
-                        <div className="flex items-center pt-4">
-                            <div className="flex gap-3 text-[13px] mr-2">
-                                {loggedUser?.imageurl ? <Image src={loggedUser.imageurl} width={24} height={24} alt="User Picture" /> : <div className="w-11 h-11 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: loggedUser?.color }}>
-                                    {getInitials(loggedUser?.firstname ?? "U", loggedUser?.lastname ?? "")}
-                                </div>}
+                {/* Seccion de comentarios  */}
+                {
+                    commentarySection ?
+                        <div className="rounded-lg bg-card-background text-main-text border-borders mt-2">
+                            <div className="flex justify-between border-b-1 border-borders pb-6 pt-6">
+                                <h1 className="font-medium">Comentarios</h1>
+                                <h1 className="hover:opacity-60 cursor-pointer mr-5" onClick={() => setCommentarySection(false)} >x</h1>
                             </div>
-                            <form onSubmit={createComentary} className="flex w-full font-medium">
-                                <input required type="text" placeholder="Escribe un comentario..." className="rounded-full px-6 py-4 bg-lighter-card-background w-full" onChange={(e) => setCommentaryContent(e.target.value)} />
-                                <button type="submit" className="px-4 bg-main-purple rounded-lg ml-2 text-sm hover:opacity-60 cursor-pointer">Enviar</button>
-                            </form>
+                            <div className="flex flex-col gap-5 pt-5 pb-5 border-b-1 border-borders ">
+
+                                {
+                                    filteredCommentaries.length === 0 ?
+                                        <div>
+                                            <h1 className="text-gray-text">No hay comentarios en esta publicación!</h1>
+                                        </div>
+                                        :
+                                        filteredCommentaries
+                                            .map((commentary) => (
+                                                <Commentary key={commentary.commentaryid} userid={commentary.userid} content={commentary.content} />
+                                            ))
+                                }
+                            </div>
+                            <div className="flex items-center pt-4">
+                                <div className="flex gap-3 text-[13px] mr-2">
+                                    {loggedUser?.imageurl ? <Image src={loggedUser.imageurl} width={24} height={24} alt="User Picture" /> : <div className="w-11 h-11 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: loggedUser?.color }}>
+                                        {getInitials(loggedUser?.firstname ?? "U", loggedUser?.lastname ?? "")}
+                                    </div>}
+                                </div>
+                                <form onSubmit={createComentary} className="flex w-full font-medium">
+                                    <input required type="text" placeholder="Escribe un comentario..." className="rounded-full px-6 py-4 bg-lighter-card-background w-full" onChange={(e) => setCommentaryContent(e.target.value)} />
+                                    <button type="submit" className="px-4 bg-main-purple rounded-lg ml-2 text-sm hover:opacity-60 cursor-pointer">Enviar</button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    :
-                    null
-            }
-        </div>
+                        :
+                        null
+                }
+                {/* Seccion de menu */}
+                <PublicationMenu state={menuState} setState={setMenuState} id={publicationid ?? 616} />
+            </div>
+        </>
     )
 }

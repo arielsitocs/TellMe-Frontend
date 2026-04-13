@@ -6,6 +6,7 @@ import { FormEvent, useState, useRef } from "react";
 
 import Button from "../components/ui/button";
 import { getInitials } from "../utils/name";
+import Loader from "./ui/loader";
 
 import ImageIcon from "@/public/image-icon.svg";
 import EmojiIcon from "@/public/emoji-icon.svg";
@@ -14,9 +15,9 @@ import { useAuth } from "../context/auth-context";
 
 import { createPublication as insertPublication } from "@/src/services/publications.service";
 
-
 export default function ContentPublish() {
     const [text, setText] = useState('')
+    const [loaderState, setLoaderState] = useState(false)
 
     const { user, token } = useAuth() as unknown as {
         user: {
@@ -38,17 +39,18 @@ export default function ContentPublish() {
 
     const createPublication = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-
+        setLoaderState(true);
         try {
             const publication = {
                 content: text,
                 userid: user?.userid
             }
-
             await insertPublication(publication, token)
             window.location.reload()
         } catch (error) {
             console.error(error)
+        } finally {
+            setLoaderState(false);
         }
     }
 
@@ -68,7 +70,7 @@ export default function ContentPublish() {
                 </div>
                 <Button icon={EmojiIcon} action={() => { }} />
                 <div className="ml-auto">
-                    <Button type="submit" text="Publicar" action={() => { }} />
+                    {loaderState ? <Loader state={loaderState} setState={setLoaderState} /> : <Button type="submit" text="Publicar" action={() => { }} />}
                 </div>
             </div>
         </form>

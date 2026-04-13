@@ -6,6 +6,7 @@ import ContentPublish from "@/src/components/content-publish"
 import Publishment from "@/src/components/ui/publication"
 import PopularPublishment from "@/src/components/popular-publishment"
 import AppInfo from "@/src/components/app-info"
+import Loader from "@/src/components/ui/loader" 
 
 import { useEffect, useState } from "react"
 
@@ -29,6 +30,7 @@ export default function Feed() {
     }
 
     const [publications, setPublications] = useState<any[]>([])
+    const [loaderState, setLoaderState] = useState(false)
 
     const userid = user?.userid ?? 616
     const firstname = user?.firstname ?? 'error'
@@ -41,11 +43,14 @@ export default function Feed() {
     const following = user?.following ?? 0
 
     const loadPublications = async () => {
+        setLoaderState(true)
         try {
-            const data = await fetchPublications();
+            const data = await fetchPublications()
             setPublications(data)
         } catch (error: any) {
             throw new Error(error)
+        } finally {
+            setLoaderState(false)
         }
     }
 
@@ -55,6 +60,7 @@ export default function Feed() {
 
     return (
         <main className="grid grid-cols-1 sm:grid-cols-[300px_1fr] xl:grid-cols-[300px_55%_1fr] gap-2 sm:gap-5 pt-13 px-3 py-3">
+            {loaderState && <Loader state={loaderState} setState={setLoaderState} />}
             <div>
                 <UserData userid={userid} firstname={firstname} lastname={lastname} username={username} description={description} posts={posts} followers={followers} following={following} color={color} />
                 <SideNavigation />

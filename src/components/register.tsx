@@ -11,6 +11,7 @@ import Image from "next/image";
 
 import Input from "./ui/input"
 import Button from "./ui/button";
+import Loader from "./ui/loader";
 
 import UserIcon from "@/public/person-icon.svg";
 
@@ -24,11 +25,12 @@ export default function Register() {
     const [description, setDescription] = useState('');
     const [color, setColor] = useState('');
     const [password, setPassword] = useState('');
-    const [imageUrl, setImageUrl] = useState();
+    const [imageUrl, setImageUrl] = useState('');
+    const [loaderState, setLoaderState] = useState(false);
 
     const register = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-
+        setLoaderState(true);
         try {
             const generatedColor = generateColor()
             setColor(generatedColor)
@@ -36,6 +38,8 @@ export default function Register() {
             router.push('/login');
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoaderState(false);
         }
     }
 
@@ -60,8 +64,7 @@ export default function Register() {
                 <Input type={'email'} title={'Correo electrónico'} placeholder="juan@ejemplo.com" value={email} setValue={setEmail} required={true} />
                 <Input type={'text'} title={'Descripción'} placeholder="Desarrollador Web con 5 años de experiencia!" value={description} setValue={setDescription} required={true} />
                 <Input type={'password'} title={'Contraseña'} placeholder="juan1234" value={password} setValue={setPassword} required={true} />
-                <span className="mt-2"></span>
-                <Button type="submit" text="Crear Cuenta" action={() => { }} />
+                {loaderState ? <Loader state={loaderState} setState={setLoaderState} /> : <Button type="submit" text="Crear Cuenta" action={() => { }} />}
             </form>
             <div className="flex items-center justify-center mt-5">
                 <hr className="border-borders flex-1" />
