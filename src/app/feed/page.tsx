@@ -71,25 +71,29 @@ export default function Feed() {
             </div>
             <div className="flex flex-col gap-2 sm:gap-5">
                 <ContentPublish />
-                {loaderState && <Loader state={loaderState} setState={setLoaderState} />}
                 {
-                    publications.length === 0 ?
-                        <div className="w-full py-15 rounded-lg bg-card-background text-main-text text-center">
-                            <h1>No hay publicaciones creadas!</h1>
-                        </div>
+                    loaderState ?
+                        <Loader state={loaderState} setState={setLoaderState} />
                         :
-                        publications.map((publication, index) => (
-                            <Publishment
-                                key={index}
-                                publicationid={publication.publicationid}
-                                userid={publication.userid}
-                                content={publication.content}
-                                imageurl={publication.imageurl}
-                                likes={publication.likes}
-                                comments={publication.comments}
-                                onDelete={handleDeleteFromState}
-                            />
-                        ))}
+                        publications.length === 0 ?
+                            <div className="w-full py-15 rounded-lg bg-card-background text-main-text text-center">
+                                <h1>No hay publicaciones creadas!</h1>
+                            </div>
+                            :
+                            publications.map((publication, index) => (
+                                <Publishment
+                                    key={index}
+                                    publicationid={publication.publicationid}
+                                    userid={publication.userid}
+                                    content={publication.content}
+                                    imageurl={publication.imageurl}
+                                    likes={publication.likes}
+                                    comments={publication.comments}
+                                    onDelete={handleDeleteFromState}
+                                />
+                            ))
+                }
+
             </div>
             <div className="flex flex-col gap-2 sm:gap-5">
                 <PopularPublishment />
