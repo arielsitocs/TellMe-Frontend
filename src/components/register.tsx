@@ -25,7 +25,7 @@ export default function Register() {
     const [description, setDescription] = useState('');
     const [color, setColor] = useState('');
     const [password, setPassword] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageUrl, setImageUrl] = useState(null);
     const [loaderState, setLoaderState] = useState(false);
 
     const register = async (event: FormEvent<HTMLFormElement>) => {
@@ -34,7 +34,16 @@ export default function Register() {
         try {
             const generatedColor = generateColor()
             setColor(generatedColor)
-            await registerService({ firstname: firstName, lastname: lastName, username, email, description, imageurl: imageUrl, color: generatedColor, password })
+            await registerService({
+                firstname: firstName,
+                lastname: lastName,
+                username,
+                email,
+                description,
+                imageurl: imageUrl || null,
+                color: generatedColor,
+                password
+            })
             router.push('/login');
         } catch (error) {
             console.error(error);
