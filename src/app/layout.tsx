@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 // Proporciona todas las variables y funcionces del contexto //
 import { AuthProvider } from "../context/auth-context";
 
+import { Toaster } from "sonner";
+
 import NavBar from "../components/navbar";
 
 import "./globals.css";
@@ -27,11 +29,11 @@ export default function RootLayout({
       lang="es"
       className={`${inter.variable} h-full bg-page-background antialiased`}
     >
-
       <body className="min-h-full flex flex-col">
         <AuthProvider>
           <NavBar />
           {children}
+          <Toaster />
         </AuthProvider>
       </body>
     </html >

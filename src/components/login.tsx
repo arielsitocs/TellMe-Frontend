@@ -30,7 +30,7 @@ export default function Login() {
 
         if (email === '' || password === '') {
             setError('Debes ingresar credenciales')
-            return null;
+            return;
         }
 
         try {
@@ -38,7 +38,11 @@ export default function Login() {
             const data = await loginService(email, password) // Realiza la peticion a login y retorna el token y el usuario //
             saveSession(data) // Guarda el token y usuario en el contexto //
             router.push('/feed')
-        } catch (error) {
+        } catch (error: any) {
+            if(error.response.status === 400) {
+                setError('La contraseña debe tener 6 carácteres mínimo')
+                return;
+            }
             setError('Credenciales ingresadas incorrectas')
         } finally {
             setLoaderState(false);

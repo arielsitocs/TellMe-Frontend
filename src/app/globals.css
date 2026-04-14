@@ -4,6 +4,7 @@
   --main-purple: #534AB7;
   --light-purple: #EEEDFE;
   --dark--purple: #3C3489;
+  --transparent-purple: #3d348984;
   --coral: #D85A30;
   --light-coral: #D85A30;
   --dark-coral: #712B13;
@@ -13,6 +14,9 @@
   --teal: #1D9E75;
   --light-teal: #E1F5EE;
   --dark-teal: #085041;
+  --ambar: #EF9F27;
+  --transparent-ambar: #ef9f2738;
+  --transparent-dark-teal: #0850426f;
   --page-background: #1C1C1C;
   --card-background: #2A2A2A;
   --light-gray-background: #1F1F1F;
@@ -24,6 +28,7 @@
   --secondary-text: #9B9B9B;
   --terciary-text: #666666;
   --red: #E24B4A;
+  --transparent-red: #e24a4a4e;
   --loader-bg: #36363666; 
 }
 
@@ -31,6 +36,7 @@
   --color-main-purple: var(--main-purple);
   --color-light-purple: var(--light-purple);
   --color-dark-purple: var(--dark--purple);
+  --color-transparent-purple: var(--transparent-purple);
   --color-coral: var(--coral);
   --color-light-coral: var(--light-coral);
   --color-dark-coral: var(--dark-coral);
@@ -40,6 +46,8 @@
   --color-teal: var(--teal);
   --color-light-teal: var(--light-teal);
   --color-dark-teal: var(--dark-teal);
+  --color-ambar: var(--ambar);
+  --color-transparent-dark-teal: var(--transparent-dark-teal);
   --color-page-background: var(--page-background);
   --color-card-background: var(--card-background);
   --color-light-gray-background: var(--light-gray-background);
@@ -51,6 +59,7 @@
   --color-secondary-text: var(--secondary-text);
   --color-terciary-text: var(--terciary-text);
   --color-red: var(--red);
+  --color-transparent-red: var(--transparent-red);
   --color-loader-bg: var(--loader-bg);
   --font-inter: var(--font-inter);
 }

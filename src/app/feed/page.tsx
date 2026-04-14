@@ -76,7 +76,7 @@ export default function Feed() {
                         <Loader state={loaderState} setState={setLoaderState} />
                         :
                         publications.length === 0 ?
-                            <div className="w-full py-15 rounded-lg bg-card-background text-main-text text-center">
+                            <div className="w-full py-15 rounded-lg bg-card-background text-secondary-text text-center">
                                 <h1>No hay publicaciones creadas!</h1>
                             </div>
                             :

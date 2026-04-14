@@ -168,17 +168,22 @@ export default function Profile({ userid, imageurl, firstname, lastname, usernam
             </div>
             <div className="flex flex-col gap-3">
                 {
-                    filteredPubs.map((publication, index) => (
-                        <Publishment
-                            key={index}
-                            publicationid={publication.publicationid}
-                            userid={publication.userid}
-                            content={publication.content}
-                            imageurl={publication.imageurl}
-                            likes={publication.likes}
-                            comments={publication.comments}
-                        />
-                    ))
+                    filteredPubs.length === 0 ?
+                        <div className="w-full py-15 rounded-lg bg-card-background border-1 border-borders text-secondary-text text-center">
+                            <h1>Aun no tienes publicaciones!</h1>
+                        </div>
+                        :
+                        filteredPubs.map((publication, index) => (
+                            <Publishment
+                                key={index}
+                                publicationid={publication.publicationid}
+                                userid={publication.userid}
+                                content={publication.content}
+                                imageurl={publication.imageurl}
+                                likes={publication.likes}
+                                comments={publication.comments}
+                            />
+                        ))
                 }
             </div>
             <EditProfile userid={profileUserid} imageurl={profileImageurl} firstname={profileFirstname} lastname={profileLastname} username={profileUsername} description={profileDescription} posts={profilePosts} followers={profileFollowers} following={profileFollowing} color={profileColor} state={editProfileState} setState={setEditProfileState} />

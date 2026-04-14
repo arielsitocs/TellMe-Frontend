@@ -14,3 +14,13 @@ export const updateUser = async (id, userData, token) => {
     });
     return response.data;
 }
+
+export const updatePassword = async (id, passwordData, token) => {
+    const response = await api.patch(`/users/password/${id}`, passwordData, {
+        // Se le pasa el token donde se extrae el userid del usuario logueado //
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    return response.data;
+}

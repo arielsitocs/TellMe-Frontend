@@ -2,12 +2,16 @@
 
 import { createContext, useContext, useState, useEffect } from "react"
 
+import { useRouter } from "next/navigation";
+
 // Se crea un contexto vacio //
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
+
+    const router = useRouter();
 
     // Al cargar la app recupera la sesion del localStorage //
     useEffect(() => {
@@ -36,6 +40,7 @@ export function AuthProvider({ children }) {
         // Limpia el localStorage //
         localStorage.removeItem('token')
         localStorage.removeItem('user')
+        router.push('/login')
     }
 
     // Se pasan las variabels y funciones para globalizarlas en la app //

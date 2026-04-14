@@ -5,6 +5,8 @@ import SideNavigation from "@/src/components/side-navigation"
 
 import { useAuth } from "@/src/context/auth-context"
 
+import Settings from "@/src/components/settings"
+
 export default function SettingsPage() {
     const { user } = useAuth() as unknown as {
         user: {
@@ -31,6 +33,9 @@ export default function SettingsPage() {
             <div>
                 <UserData firstname={firstname} lastname={lastname} description={description} posts={posts} followers={followers} following={following} color={color} />
                 <SideNavigation />
+            </div>
+            <div>
+                <Settings />
             </div>
         </main>
     )
