@@ -29,7 +29,14 @@ export default function UpdateEmail() {
         try {
             setLoaderState(true);
             const updatedUser = {
-                email: newEmail
+                email: newEmail,
+                // Solo se envian estos datos porque el DTO lo pide //
+                firstname: user.firstname,
+                lastname: user.lastname,
+                username: user.username,
+                description: user.description,
+                imageurl: user.imageurl,
+                color: user.color
             }
 
             await updateUser(user.userid, updatedUser, token)
