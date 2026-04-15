@@ -90,6 +90,8 @@ export default function Feed() {
                                     likes={publication.likes}
                                     comments={publication.comments}
                                     onDelete={handleDeleteFromState}
+                                    publications={publications}
+                                    setPublications={setPublications}
                                 />
                             ))
                 }

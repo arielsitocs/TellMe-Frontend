@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 
-import PublishmentTypes from "@/src/types/publishment-types"
+import PublishmentTypes, { PublicationsStateProps } from "@/src/types/publishment-types"
 
 import { getInitials } from "@/src/utils/name";
 
@@ -23,6 +23,7 @@ import { deletePublication as removePublication } from "@/src/services/publicati
 import Button from "./button";
 import Commentary from "./commentary";
 import PublicationMenu from "./publication-menu";
+import EditPublication from "@/src/app/feed/_components/edit-publication";
 
 import VerticalMenuIcon from "@/public/vertical-menu-icon.svg";
 import LikeIconFilled from "@/public/like-icon-filled.svg";
@@ -36,7 +37,7 @@ type PublicationUser = {
     color?: string
 }
 
-export default function Publication({ publicationid, userid, content, imageurl, likes, comments, onDelete }: PublishmentTypes) {
+export default function Publication({ publicationid, userid, content, imageurl, likes, comments, onDelete, publications, setPublications }: PublishmentTypes & PublicationsStateProps) {
     const [user, setUser] = useState<PublicationUser | null>(null);
     const [commentaryContent, setCommentaryContent] = useState('');
     const [commentaries, setCommentaries] = useState<any[]>([]);
@@ -47,6 +48,7 @@ export default function Publication({ publicationid, userid, content, imageurl, 
     const [liked, setLiked] = useState(false);
     const [isSubmittingLike, setIsSubmittingLike] = useState(false);
     const [loaderState, setLoaderState] = useState(false);
+    const [editPublication, setEditPublication] = useState(false);
 
     const router = useRouter();
 
@@ -131,6 +133,7 @@ export default function Publication({ publicationid, userid, content, imageurl, 
             }
 
             await insertComentary(newCommentary, token);
+            setCommentaryContent('');
             getCommentaries();
             filterCommentaries();
         } catch (error) {
@@ -217,7 +220,7 @@ export default function Publication({ publicationid, userid, content, imageurl, 
                                     </div>}
                                 </div>
                                 <form onSubmit={createComentary} className="flex w-full font-medium">
-                                    <input required type="text" placeholder="Escribe un comentario..." className="rounded-full px-6 py-4 bg-lighter-card-background w-full" onChange={(e) => setCommentaryContent(e.target.value)} />
+                                    <input required type="text" placeholder="Escribe un comentario..." className="rounded-full px-6 py-4 bg-lighter-card-background w-full" value={commentaryContent} onChange={(e) => setCommentaryContent(e.target.value)} />
                                     <button type="submit" className="px-4 bg-main-purple rounded-lg ml-2 text-sm hover:opacity-60 cursor-pointer">Enviar</button>
                                 </form>
                             </div>
@@ -226,7 +229,18 @@ export default function Publication({ publicationid, userid, content, imageurl, 
                         null
                 }
                 {/* Seccion de menu */}
-                <PublicationMenu state={menuState} setState={setMenuState} deletePublication={() => deletePublication()} />
+                <PublicationMenu state={menuState} setState={setMenuState} deletePublication={() => deletePublication()} editPublicationState={editPublication} setEditPublicationState={setEditPublication} />
+                {/* Modal de editar publicacion */}
+                <EditPublication
+                    publicationid={publicationid}
+                    content={content}
+                    likes={likes}
+                    userid={userid}
+                    state={editPublication}
+                    setState={setEditPublication}
+                    publications={publications}
+                    setPublications={setPublications}
+                />
             </div>
         </>
     )

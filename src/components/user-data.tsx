@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 
-import UserDataTypes from "../types/user-data-types"
+import { UserDataTypes } from "../types/user-data-types"
 
 import { getInitials } from "../utils/name"
 

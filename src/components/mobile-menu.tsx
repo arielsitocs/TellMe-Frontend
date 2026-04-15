@@ -1,4 +1,4 @@
-import UserDataTypes from "../types/user-data-types";
+import { UserDataTypes } from "../types/user-data-types";
 
 import Image from "next/image";
 

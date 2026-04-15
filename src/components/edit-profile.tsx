@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 
-import UserDataTypes from "../types/user-data-types";
+import { UserDataTypes } from "../types/user-data-types";
 
 import { updateUser } from "@/src/services/user.service";
 import { useAuth } from "../context/auth-context";
+
+import { toast } from "sonner";
 
 import Image from "next/image";
 
@@ -61,6 +63,7 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
                 })
             }
 
+            toast.success('Perfil actualizado!')
             setState?.(false)
         } catch (error) {
             console.error(error)

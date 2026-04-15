@@ -1,6 +1,8 @@
-import type { StaticImageData } from "next/image"
 
-interface UserDataTypes {
+import type { StaticImageData } from "next/image"
+import type { Dispatch, SetStateAction } from "react";
+
+export interface UserDataTypes {
     userid?: number
     imageurl?: StaticImageData | string | null
     firstname: string
@@ -14,5 +16,3 @@ interface UserDataTypes {
     state?: boolean
     setState?: (state: boolean) => void
 }
-
-export default UserDataTypes;

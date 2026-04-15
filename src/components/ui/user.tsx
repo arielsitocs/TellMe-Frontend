@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import UserDataTypes from "@/src/types/user-data-types"
+import { UserDataTypes } from "@/src/types/user-data-types"
 
 import { formatName, getInitials } from "@/src/utils/name"
 

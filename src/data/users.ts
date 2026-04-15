@@ -1,4 +1,4 @@
-import type UserDataTypes from "@/src/types/user-data-types"
+import type { UserDataTypes } from "@/src/types/user-data-types"
 
 const users: UserDataTypes[] = [
     {

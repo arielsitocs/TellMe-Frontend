@@ -14,7 +14,7 @@ import { getPublications as fetchPublications } from "@/src/services/publication
 
 import { useAuth } from "../context/auth-context";
 
-import UserDataTypes from "../types/user-data-types";
+import { UserDataTypes } from "../types/user-data-types";
 
 import Publishment from "./ui/publication";
 import Button from "./ui/button";
@@ -182,13 +182,26 @@ export default function Profile({ userid, imageurl, firstname, lastname, usernam
                                 imageurl={publication.imageurl}
                                 likes={publication.likes}
                                 comments={publication.comments}
+                                publications={publications}
+                                setPublications={setPublications}
                             />
                         ))
                 }
             </div>
-            <EditProfile userid={profileUserid} imageurl={profileImageurl} firstname={profileFirstname} lastname={profileLastname} username={profileUsername} description={profileDescription} posts={profilePosts} followers={profileFollowers} following={profileFollowing} color={profileColor} state={editProfileState} setState={setEditProfileState} />
-            { /* PERFIL PARAMETRICO */}
+            <EditProfile
+                userid={profileUserid}
+                imageurl={profileImageurl}
+                firstname={profileFirstname}
+                lastname={profileLastname}
+                username={profileUsername}
+                description={profileDescription}
+                posts={profilePosts}
+                followers={profileFollowers}
+                following={profileFollowing}
+                color={profileColor}
+                state={editProfileState}
+                setState={setEditProfileState}
+            />
         </>
-
     )
 }
