@@ -113,7 +113,7 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
                 </div>
                 <div>
                     <Input type="text" title="Nombre de usuario" value={newUsername} setValue={setNewUsername} placeholder="Ej: juan1234" />
-                    <p className="text-sm text-terciary-text">tu perfil: tellme.app/{newUsername}</p>
+                    <p className="text-sm text-terciary-text">tu perfil: tellme@{newUsername}</p>
                 </div>
                 <textarea value={newDescription} onChange={(e) => setNewDescription(e.target.value)} className="text-gray-text bg-card-background p-2 rounded-lg border-1 border-borders w-full min-h-25 resize-none" />
                 {loaderState ? <Loader state={loaderState} setState={setLoaderState} /> : <button type="submit" className="px-4 py-1 text-main-text bg-main-purple rounded-full hover:opacity-80 cursor-pointer transition-all">Guardar cambios</button>}

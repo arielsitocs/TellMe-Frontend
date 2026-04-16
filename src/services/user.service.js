@@ -1,5 +1,10 @@
 import { api } from "@/src/lib/axios"
 
+export const getUsers = async () => {
+    const response = await api.get(`/users`);
+    return response.data;
+}
+
 export const getUser = async (id) => {
     const response = await api.get(`/users/${id}`)
     return response.data;
@@ -22,5 +27,14 @@ export const updatePassword = async (id, passwordData, token) => {
             Authorization: `Bearer ${token}`
         }
     });
+    return response.data;
+}
+
+export const deleteUser = async (id, token) => {
+    const response = await api.delete(`/users/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
     return response.data;
 }
