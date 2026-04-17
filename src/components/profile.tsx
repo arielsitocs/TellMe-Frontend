@@ -24,20 +24,13 @@ import EditProfile from "./edit-profile";
 
 import CalendarIcon from "@/public/calendar-icon.svg";
 
-export default function Profile({ userid, imageurl, firstname, lastname, username, description, posts, followers, following, color }: UserDataTypes) {
+export default function Profile() {
     const [editProfileState, setEditProfileState] = useState(false);
     const [publications, setPublications] = useState<any[]>([]);
     const [paramsUser, setParamsUser] = useState<any>(null);
     const [loaderState, setLoaderState] = useState(false);
 
-    const auth = useAuth() as unknown as {
-        user?: {
-            userid?: number
-        } | null
-        token?: string | null
-    }
-
-    const loggedUserId = auth?.user?.userid;
+    const { user } = useAuth() as any
 
     const params = useParams();
 
@@ -77,17 +70,18 @@ export default function Profile({ userid, imageurl, firstname, lastname, usernam
         loadPublications();
     }, [ParamsUserId])
 
-    // Obtiene los datos del usuario parametrico, si no hay, usa los datos del usuario propio //
-    const profileUserid = paramsUser?.userid ?? userid;
-    const profileImageurl = paramsUser?.imageurl ?? imageurl;
-    const profileFirstname = paramsUser?.firstname ?? firstname;
-    const profileLastname = paramsUser?.lastname ?? lastname;
-    const profileUsername = paramsUser?.username ?? username;
-    const profileDescription = paramsUser?.description ?? description;
-    const profilePosts = paramsUser?.posts ?? posts;
-    const profileFollowers = paramsUser?.followers ?? followers;
-    const profileFollowing = paramsUser?.following ?? following;
-    const profileColor = paramsUser?.color ?? color;
+    // Si el perfil es el del usuario autenticado, usa SIEMPRE el contexto //
+    const isOwnProfile = !ParamsUserId || Number(ParamsUserId) === user?.userid;
+    const profileUserid = isOwnProfile ? user?.userid : paramsUser?.userid;
+    const profileImageurl = isOwnProfile ? user?.imageurl : paramsUser?.imageurl;
+    const profileFirstname = isOwnProfile ? user?.firstname : paramsUser?.firstname;
+    const profileLastname = isOwnProfile ? user?.lastname : paramsUser?.lastname;
+    const profileUsername = isOwnProfile ? user?.username : paramsUser?.username;
+    const profileDescription = isOwnProfile ? user?.description : paramsUser?.description;
+    const profilePosts = isOwnProfile ? user?.posts : paramsUser?.posts;
+    const profileFollowers = isOwnProfile ? user?.followers : paramsUser?.followers;
+    const profileFollowing = isOwnProfile ? user?.following : paramsUser?.following;
+    const profileColor = isOwnProfile ? user?.color : paramsUser?.color;
 
     // Filtra las publicaciones del usuario //
     const filteredPubs = publications.filter((publication) => {
@@ -113,7 +107,7 @@ export default function Profile({ userid, imageurl, firstname, lastname, usernam
                             </div>
                         )}
                         {
-                            Number(ParamsUserId) !== loggedUserId ?
+                            Number(ParamsUserId) !== user?.userid ?
                                 null
                                 :
                                 <div className="ml-auto">

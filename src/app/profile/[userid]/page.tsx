@@ -38,7 +38,7 @@ export default function ProfilePage() {
                 <SideNavigation />
             </div>
             <div onClick={() => { }}>
-                <Profile userid={userid} firstname={firstname} lastname={lastname} username={username} description={description} posts={posts} followers={followers} following={following} color={color} />
+                <Profile />
             </div>
         </main>
     )

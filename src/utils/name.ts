@@ -3,9 +3,8 @@ function getInitials(firstname: string, lastname: string) {
     return initials
 }
 
-const formatName = (firstname: string, lastname: string) => {
-    const resultName = `@${firstname.toLowerCase()}${lastname.toLocaleLowerCase()}`
-    return resultName;
+const formatName = (firstname: string = "", lastname: string = "") => {
+  return `@${firstname.toLowerCase()}${lastname.toLowerCase()}`;
 }
 
 export { getInitials, formatName };

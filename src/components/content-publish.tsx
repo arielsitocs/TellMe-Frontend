@@ -5,13 +5,16 @@ import Image from "next/image";
 import { FormEvent, useState, useRef } from "react";
 
 import Button from "../components/ui/button";
-import { getInitials } from "../utils/name";
 import Loader from "./ui/loader";
+
+import { getInitials } from "../utils/name";
 
 import ImageIcon from "@/public/image-icon.svg";
 import EmojiIcon from "@/public/emoji-icon.svg";
 
 import { useAuth } from "../context/auth-context";
+
+import { updateAndSyncUser } from "../utils/updateAndSyncUser";
 
 import { createPublication as insertPublication } from "@/src/services/publications.service";
 
@@ -19,16 +22,7 @@ export default function ContentPublish() {
     const [text, setText] = useState('')
     const [loaderState, setLoaderState] = useState(false)
 
-    const { user, token } = useAuth() as unknown as {
-        user: {
-            userid?: number
-            firstname?: string
-            lastname?: string
-            description?: string
-            color?: string
-        } | null
-        token?: string | null
-    }
+    const { user, token, saveSession } = useAuth() as any;
 
     const image = false;
     const firstname = user?.firstname ?? 'error'
@@ -45,6 +39,19 @@ export default function ContentPublish() {
                 content: text,
                 userid: user?.userid
             }
+            // Actualiza el usuario sumando 1 a posts y pasando toda la data obligatoria en el dto //
+            const updatedUserData = {
+                email: user?.email ?? "",
+                firstname: user?.firstname ?? "",
+                lastname: user?.lastname ?? "",
+                username: user?.username ?? "",
+                description: user?.description ?? "",
+                color: user?.color ?? "",
+                posts: (user?.posts ?? 0) + 1,
+                followers: user?.followers ?? 0,
+                following: user?.following ?? 0
+            };
+            await updateAndSyncUser(user?.userid, updatedUserData, token, saveSession);
             await insertPublication(publication, token)
             window.location.reload()
         } catch (error) {

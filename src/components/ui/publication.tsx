@@ -6,7 +6,7 @@ import PublishmentTypes, { PublicationsStateProps } from "@/src/types/publishmen
 
 import { getInitials } from "@/src/utils/name";
 
-import { getUser as getPublicationUser } from "@/src/services/user.service";
+import { getUser as getPublicationUser, updateUser } from "@/src/services/user.service";
 
 import { getLikes, like as giveLike, dislike as giveDislike } from "@/src/services/publications.service";
 
@@ -20,6 +20,8 @@ import { useAuth } from "@/src/context/auth-context";
 
 import { deletePublication as removePublication } from "@/src/services/publications.service";
 
+import { updateAndSyncUser } from "@/src/utils/updateAndSyncUser";
+
 import Button from "./button";
 import Commentary from "./commentary";
 import PublicationMenu from "./publication-menu";
@@ -29,16 +31,10 @@ import VerticalMenuIcon from "@/public/vertical-menu-icon.svg";
 import LikeIconFilled from "@/public/like-icon-filled.svg";
 import LikeIcon from "@/public/like-icon.svg";
 import CommentIcon from "@/public/comment-icon.svg";
-
-type PublicationUser = {
-    imageurl?: string | null
-    firstname?: string
-    lastname?: string
-    color?: string
-}
+import { UserDataTypes } from "@/src/types/user-data-types";
 
 export default function Publication({ publicationid, userid, content, imageurl, likes, comments, onDelete, publications, setPublications }: PublishmentTypes & PublicationsStateProps) {
-    const [user, setUser] = useState<PublicationUser | null>(null);
+    const [user, setUser] = useState<UserDataTypes | null>(null);
     const [commentaryContent, setCommentaryContent] = useState('');
     const [commentaries, setCommentaries] = useState<any[]>([]);
     const [filteredCommentaries, setFilteredCommentaries] = useState<any[]>([]);
@@ -57,7 +53,6 @@ export default function Publication({ publicationid, userid, content, imageurl, 
     const loggedUser = auth.user;
 
     const token = auth.token;
-
 
     // Obtiene el usuario de la publicacion //
     const getUser = async () => {
@@ -79,8 +74,21 @@ export default function Publication({ publicationid, userid, content, imageurl, 
 
     const deletePublication = async () => {
         try {
-            setLoaderState(true)
+            setLoaderState(true);
             await removePublication(publicationid, token);
+            // Actualiza el usuario restando 1 a posts y pasando toda la data obligatoria en el dto //
+            const updatedUserData = {
+                email: loggedUser?.email ?? "",
+                firstname: loggedUser?.firstname ?? "",
+                lastname: loggedUser?.lastname ?? "",
+                username: loggedUser?.username ?? "",
+                description: loggedUser?.description ?? "",
+                color: loggedUser?.color ?? "",
+                posts: (loggedUser?.posts ?? 0) - 1,
+                followers: loggedUser?.followers ?? 0,
+                following: loggedUser?.following ?? 0
+            };
+            await updateAndSyncUser(loggedUser?.userid, updatedUserData, token, auth.saveSession);
             // Esto borra el componente del DOM inmediatamente //
             if (onDelete) {
                 onDelete(publicationid);

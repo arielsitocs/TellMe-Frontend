@@ -3,7 +3,10 @@ import { useState, useRef, useEffect } from "react";
 import { UserDataTypes } from "../types/user-data-types";
 
 import { updateUser } from "@/src/services/user.service";
+
 import { useAuth } from "../context/auth-context";
+
+import { updateAndSyncUser } from "../utils/updateAndSyncUser";
 
 import { toast } from "sonner";
 
@@ -17,10 +20,7 @@ import { getInitials } from "../utils/name";
 export default function EditProfile({ userid, imageurl, firstname, lastname, username, description, color, state, setState }: UserDataTypes) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const auth = useAuth() as any;
-    const user = auth?.user;
-    const token = auth?.token;
-    const saveSession = auth?.saveSession;
+    const { user, token, saveSession } = useAuth() as any;
 
     const [newFirstname, setNewFirstname] = useState(firstname);
     const [newLastname, setNewLastname] = useState(lastname);
@@ -50,18 +50,10 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
                 color: color,
             }
 
-            const response = await updateUser(userid, updatedUser, token)
+            await updateUser(userid, updatedUser, token)
 
             // Se actualiza la sesion para obtener los datos actualizados //
-            if (saveSession && token) {
-                saveSession({
-                    token,
-                    user: {
-                        ...user,
-                        ...response,
-                    },
-                })
-            }
+            await updateAndSyncUser(user?.userid, updatedUser, token, saveSession)
 
             toast.success('Perfil actualizado!')
             setState?.(false)
