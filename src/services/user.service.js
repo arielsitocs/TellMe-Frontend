@@ -38,3 +38,28 @@ export const deleteUser = async (id, token) => {
     })
     return response.data;
 }
+
+// SERVICIOS DE FOLLOW //
+
+export const getFollows = async () => {
+    const response = await api.get('/users/follow')
+    return response.data;
+}
+
+export const follow = async (followData, token) => {
+    const response = await api.post(`/users/follow`, followData, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return response.data;
+}
+
+export const unfollow = async (followedid, token) => {
+    const response = await api.delete(`/users/follow/${followedid}`,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return response.data;
+}

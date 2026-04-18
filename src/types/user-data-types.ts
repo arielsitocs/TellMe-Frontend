@@ -1,6 +1,4 @@
-
 import type { StaticImageData } from "next/image"
-import type { Dispatch, SetStateAction } from "react";
 
 export interface UserDataTypes {
     userid?: number

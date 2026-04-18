@@ -62,9 +62,10 @@ export default function Search() {
             </div>
             <div>
                 {
-                    filteredUsers.map((user, index) => (
+                    filteredUsers.map((user) => (
                         <User
-                            key={`${user.firstname}-${user.lastname}-${index}`}
+                            key={user.userid}
+                            userid={user.userid}
                             imageurl={user.imageurl}
                             firstname={user.firstname}
                             lastname={user.lastname}

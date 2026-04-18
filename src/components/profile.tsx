@@ -14,8 +14,6 @@ import { getPublications as fetchPublications } from "@/src/services/publication
 
 import { useAuth } from "../context/auth-context";
 
-import { UserDataTypes } from "../types/user-data-types";
-
 import Publishment from "./ui/publication";
 import Button from "./ui/button";
 import Loader from "../components/ui/loader";
@@ -29,7 +27,7 @@ export default function Profile() {
     const [publications, setPublications] = useState<any[]>([]);
     const [paramsUser, setParamsUser] = useState<any>(null);
     const [loaderState, setLoaderState] = useState(false);
-
+    
     const { user } = useAuth() as any
 
     const params = useParams();
@@ -87,7 +85,6 @@ export default function Profile() {
     const filteredPubs = publications.filter((publication) => {
         return publication.userid === profileUserid
     })
-
     return (
         <>
             <div className="rounded-lg w-full border border-borders bg-card-background mt-0 sm:mt-5 px-5 py-3 overflow-hidden">
@@ -108,7 +105,9 @@ export default function Profile() {
                         )}
                         {
                             Number(ParamsUserId) !== user?.userid ?
-                                null
+                                <div className="ml-auto">
+                                    <Button text="Seguir" action={() => {}} />
+                                </div>
                                 :
                                 <div className="ml-auto">
                                     <Button text="Editar Perfil" action={() => setEditProfileState(true)} />
