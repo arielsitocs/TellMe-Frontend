@@ -1,18 +1,27 @@
 "use client"
 
-import { useState, useEffect } from "react";
 
 import Image from "next/image";
+
+import { useState, useEffect } from "react";
 
 import { getInitials, formatName } from "../utils/name";
 
 import { useParams } from "next/navigation";
 
-import { getUser } from "@/src/services/user.service"
+import { getFollows } from "@/src/services/user.service";
+
+import { getUser, updateUser } from "@/src/services/user.service"
+
+import { updateAndSyncUser } from "../utils/updateAndSyncUser";
+
+import { follow, unfollow } from "@/src/services/user.service";
 
 import { getPublications as fetchPublications } from "@/src/services/publications.service"
 
 import { useAuth } from "../context/auth-context";
+
+import { toast } from "sonner";
 
 import Publishment from "./ui/publication";
 import Button from "./ui/button";
@@ -26,9 +35,10 @@ export default function Profile() {
     const [editProfileState, setEditProfileState] = useState(false);
     const [publications, setPublications] = useState<any[]>([]);
     const [paramsUser, setParamsUser] = useState<any>(null);
+    const [isFollowing, setIsFollowing] = useState(false);
     const [loaderState, setLoaderState] = useState(false);
-    
-    const { user } = useAuth() as any
+
+    const { user, token, saveSession } = useAuth() as any
 
     const params = useParams();
 
@@ -63,11 +73,6 @@ export default function Profile() {
         }
     }
 
-    useEffect(() => {
-        findUser();
-        loadPublications();
-    }, [ParamsUserId])
-
     // Si el perfil es el del usuario autenticado, usa SIEMPRE el contexto //
     const isOwnProfile = !ParamsUserId || Number(ParamsUserId) === user?.userid;
     const profileUserid = isOwnProfile ? user?.userid : paramsUser?.userid;
@@ -85,6 +90,59 @@ export default function Profile() {
     const filteredPubs = publications.filter((publication) => {
         return publication.userid === profileUserid
     })
+
+    // Verifica si el usuario logueado sigue o no al usuario objetivo //
+    const getFollowingState = async () => {
+        const followData = await getFollows();
+        const existsFollow = (followData ?? []).some((follow: any) => follow.followedid === paramsUser?.userid && follow.followerid === user?.userid);
+        setIsFollowing(existsFollow);
+    }
+
+    const handleFollow = async () => {
+        try {
+            setLoaderState(true);
+            const followData = {
+                followedid: paramsUser?.userid
+            }
+            if (isFollowing) {
+                // Actualiza el usuario restando 1 a followers y pasando toda la data obligatoria en el dto //
+                const updatedFollowerUserData = {
+                    ...user,
+                    following: (user?.following ?? 0) - 1
+                };
+                await unfollow(paramsUser?.userid, token);
+                await updateUser(user?.userid, updatedFollowerUserData, token);
+                await updateAndSyncUser(user?.userid, updatedFollowerUserData, token, saveSession);
+                toast.info(`Dejaste de seguir a ${paramsUser?.firstname} ${paramsUser?.lastname}`)
+            }
+            else {
+                // Actualiza el usuario sumando 1 a followers y pasando toda la data obligatoria en el dto //
+                const updatedFollowerUserData = {
+                    ...user,
+                    following: (user?.following ?? 0) + 1
+                };
+                await follow(followData, token);
+                await updateUser(user?.userid, updatedFollowerUserData, token);
+                await updateAndSyncUser(user?.userid, updatedFollowerUserData, token, saveSession);
+                toast.success(`Ahora sigues a ${paramsUser?.firstname} ${paramsUser?.lastname}`)
+            }
+            setIsFollowing(!isFollowing);
+
+        } catch (error: any) {
+            console.error(error)
+        } finally {
+            setLoaderState(false);
+        }
+    }
+
+    useEffect(() => {
+        findUser();
+        loadPublications();
+        if (paramsUser && user) {
+            getFollowingState();
+        }
+    }, [paramsUser, user])
+
     return (
         <>
             <div className="rounded-lg w-full border border-borders bg-card-background mt-0 sm:mt-5 px-5 py-3 overflow-hidden">
@@ -106,7 +164,7 @@ export default function Profile() {
                         {
                             Number(ParamsUserId) !== user?.userid ?
                                 <div className="ml-auto">
-                                    <Button text="Seguir" action={() => {}} />
+                                    <Button text={isFollowing ? 'Dejar de seguir' : 'Seguir'} action={handleFollow} />
                                 </div>
                                 :
                                 <div className="ml-auto">
@@ -114,7 +172,6 @@ export default function Profile() {
                                 </div>
 
                         }
-
                     </div>
 
                     <div className="mb-5">

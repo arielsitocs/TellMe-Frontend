@@ -23,6 +23,7 @@ export default function User({ imageurl, userid, firstname, lastname, followers,
         router.push(`/profile/${userid}`)
     }
 
+    // Verifica si el usuario logueado sigue o no al usuario objetivo //
     const getFollowingState = async () => {
         const followData = await getFollows();
         const existsFollow = (followData ?? []).some((follow: any) => follow.followedid === userid && follow.followerid === user.userid);
@@ -38,14 +39,7 @@ export default function User({ imageurl, userid, firstname, lastname, followers,
             if (isFollowing) {
                 // Actualiza el usuario restando 1 a followers y pasando toda la data obligatoria en el dto //
                 const updatedFollowerUserData = {
-                    email: user?.email ?? "",
-                    firstname: user?.firstname ?? "",
-                    lastname: user?.lastname ?? "",
-                    username: user?.username ?? "",
-                    description: user?.description ?? "",
-                    color: user?.color ?? "",
-                    posts: user?.posts ?? 0,
-                    followers: user?.followers ?? 0,
+                    ...user,
                     following: (user?.following ?? 0) - 1
                 };
                 await unfollow(userid, token);
@@ -56,14 +50,7 @@ export default function User({ imageurl, userid, firstname, lastname, followers,
             else {
                 // Actualiza el usuario sumando 1 a followers y pasando toda la data obligatoria en el dto //
                 const updatedFollowerUserData = {
-                    email: user?.email ?? "",
-                    firstname: user?.firstname ?? "",
-                    lastname: user?.lastname ?? "",
-                    username: user?.username ?? "",
-                    description: user?.description ?? "",
-                    color: user?.color ?? "",
-                    posts: user?.posts ?? 0,
-                    followers: user?.followers ?? 0,
+                    ...user,
                     following: (user?.following ?? 0) + 1
                 };
                 await follow(followData, token);
