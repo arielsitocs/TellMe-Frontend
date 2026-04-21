@@ -20,7 +20,6 @@ export const updateUser = async (id, userData, token, imageFile) => {
     formData.append('username', userData.username)
     formData.append('description', userData.description || '')
     formData.append('color', userData.color || '')
-    formData.append('imageurl', userData.imageurl || '')
 
     // Solo agrega la imagen si viene una //
     if (imageFile) {

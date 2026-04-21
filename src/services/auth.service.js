@@ -17,7 +17,6 @@ export const register = async (userData, imageFile = null) => {
     formData.append('password', userData.password)
     formData.append('description', userData.description || '')
     formData.append('color', userData.color || '')
-    formData.append('imageurl', userData.imageurl || '')
 
     // Solo agrega la imagen si viene una //
     if (imageFile) {
