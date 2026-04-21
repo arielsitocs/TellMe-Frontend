@@ -26,7 +26,8 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
     const [newLastname, setNewLastname] = useState(lastname);
     const [newDescription, setNewDescription] = useState(description);
     const [newUsername, setNewUsername] = useState(username ?? "");
-
+    const [newImage, setNewImage] = useState<any | null>(null);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [loaderState, setLoaderState] = useState(false);
 
     useEffect(() => {
@@ -35,6 +36,15 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
         setNewDescription(description);
         setNewUsername(username ?? "");
     }, [firstname, lastname, description, username, state]);
+
+    // funcion para cambiar la imagen y previsualizarla //
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setNewImage(file)
+            setPreviewImage(URL.createObjectURL(file)) // preview antes de subir //
+        }
+    }
 
     const patchProfile = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -46,11 +56,11 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
                 lastname: newLastname,
                 username: newUsername,
                 description: newDescription,
-                imageurl: imageurl,
+                imageurl: newImage,
                 color: color,
             }
 
-            await updateUser(userid, updatedUser, token)
+            await updateUser(userid, updatedUser, token, newImage)
 
             // Se actualiza la sesion para obtener los datos actualizados //
             await updateAndSyncUser(user?.userid, updatedUser, token, saveSession)
@@ -75,9 +85,9 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
             <form onSubmit={patchProfile} className="border-b-1 border-borders pb-3 flex flex-col gap-4">
                 <div className="flex border-b-1 border-borders pt-5 pb-5">
                     <div className="flex items-center">
-                        {imageurl ? (
+                        {previewImage || imageurl ? (
                             <Image
-                                src={imageurl}
+                                src={previewImage ?? imageurl ?? ''}
                                 width={64}
                                 height={64}
                                 alt="User Picture"
@@ -93,7 +103,7 @@ export default function EditProfile({ userid, imageurl, firstname, lastname, use
                         <h1 className="text-white font-medium ml-3">Foto de perfil</h1>
                         <div className="flex items-center gap-3 mt-1 ml-2">
                             <button type="button" className="text-xs text-white rounded-full border-1 border-borders px-3 py-1 hover:bg-main-purple" onClick={() => fileInputRef.current?.click()}>Cambiar foto</button>
-                            <input ref={fileInputRef} id="image-upload" type="file" className="hidden" accept="image/*" />
+                            <input ref={fileInputRef} id="image-upload" type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                             <button type="button" className="text-xs border-none text-red hover:text-white">Eliminar</button>
                         </div>
                     </div>

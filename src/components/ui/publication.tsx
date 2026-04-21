@@ -170,7 +170,7 @@ export default function Publication({ publicationid, userid, content, imageurl, 
             <div className="flex flex-col relative p-3 rounded-lg border-1 border-borders bg-card-background">
                 <div className="flex">
                     <div className="flex items-center w-fit mb-2 rounded-lg hover:opacity-70 cursor-pointer" onClick={() => navigateToUser(userid)}>
-                        {user?.imageurl ? <Image src={user?.imageurl} width={24} height={24} alt="User Picture" /> : <div className="w-12 h-12 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: user?.color }}>
+                        {user?.imageurl ? <Image src={user?.imageurl} width={100} height={100} className="w-12 h-12 rounded-full object-cover" alt="User Picture" /> : <div className="w-12 h-12 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: user?.color }}>
                             {getInitials(user?.firstname ?? 'U', user?.lastname ?? '')}
                         </div>}
                         <div className="ml-3">

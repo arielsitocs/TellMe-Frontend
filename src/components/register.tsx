@@ -26,7 +26,18 @@ export default function Register() {
     const [color, setColor] = useState('');
     const [password, setPassword] = useState('');
     const [imageUrl, setImageUrl] = useState(null);
+    const [newImage, setNewImage] = useState<any | null>(null);
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [loaderState, setLoaderState] = useState(false);
+
+    // funcion para cambiar la imagen y previsualizarla //
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setNewImage(file)
+            setPreviewImage(URL.createObjectURL(file)) // preview antes de subir //
+        }
+    }
 
     const register = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -43,7 +54,7 @@ export default function Register() {
                 imageurl: imageUrl || null,
                 color: generatedColor,
                 password
-            })
+            }, newImage)
             router.push('/login');
         } catch (error) {
             console.error(error);
@@ -60,10 +71,10 @@ export default function Register() {
             </div>
             <form onSubmit={register} className="flex gap-2 flex-col mt-2 ">
                 <div className="flex justify-center">
-                    <label htmlFor="avatar-upload" className="flex w-fit p-3 justify-center mb-2 mt-2 rounded-full bg-main-purple border-2 border-light-gray border-dashed hover:translate-y-[-5px] hover:opacity-80 cursor-pointer transition-all">
-                        <Image src={UserIcon} alt="User Icon" />
+                    <label htmlFor="avatar-upload" className={`flex ${newImage ? 'p-0 border-none' : 'p-3'} justify-center mb-2 mt-2 rounded-full bg-main-purple border-2 border-light-gray border-dashed hover:translate-y-[-5px] hover:opacity-80 cursor-pointer transition-all`}>
+                        <Image src={previewImage ?? UserIcon} width={100} height={100} className={`${newImage ? 'w-25 h-25' : 'w-12 h-12'} rounded-full object-cover`} alt="User Icon" />
                     </label>
-                    <input id="avatar-upload" type="file" className="hidden" accept="image/*" />
+                    <input id="avatar-upload" type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2">
                     <Input type={'text'} title={'Nombre'} placeholder="Juan" value={firstName} setValue={setFirstName} required={true} />

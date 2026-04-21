@@ -15,19 +15,7 @@ import { getPublications as fetchPublications } from "@/src/services/publication
 import { useAuth } from "@/src/context/auth-context"
 
 export default function Feed() {
-    const { user } = useAuth() as unknown as {
-        user: {
-            userid?: number
-            firstname?: string
-            lastname?: string
-            username?: string
-            description?: string
-            color?: string
-            posts?: number
-            followers?: number
-            following?: number
-        } | null
-    }
+    const { user } = useAuth() as any;
 
     const [publications, setPublications] = useState<any[]>([])
     const [loaderState, setLoaderState] = useState(false)
@@ -39,6 +27,7 @@ export default function Feed() {
     const description = user?.description ?? 'error'
     const color = user?.color ?? '#FFFFFF'
     const posts = user?.posts ?? 0
+    const imageurl = user?.imageurl
     const followers = user?.followers ?? 0
     const following = user?.following ?? 0
 
@@ -66,7 +55,7 @@ export default function Feed() {
     return (
         <main className="grid grid-cols-1 sm:grid-cols-[300px_1fr] xl:grid-cols-[300px_55%_1fr] gap-2 sm:gap-5 pt-13 px-3 py-3">
             <div>
-                <UserData userid={userid} firstname={firstname} lastname={lastname} username={username} description={description} posts={posts} followers={followers} following={following} color={color} />
+                <UserData userid={userid} firstname={firstname} lastname={lastname} username={username} description={description} posts={posts} imageurl={imageurl} followers={followers} following={following} color={color} />
                 <SideNavigation />
             </div>
             <div className="flex flex-col gap-2 sm:gap-5">

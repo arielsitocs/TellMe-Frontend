@@ -10,11 +10,28 @@ export const getUser = async (id) => {
     return response.data;
 }
 
-export const updateUser = async (id, userData, token) => {
-    const response = await api.patch(`/users/${id}`, userData, {
+export const updateUser = async (id, userData, token, imageFile) => {
+    const formData = new FormData()
+
+    // Agrega los datos del usuario //
+    formData.append('email', userData.email)
+    formData.append('firstname', userData.firstname)
+    formData.append('lastname', userData.lastname)
+    formData.append('username', userData.username)
+    formData.append('description', userData.description || '')
+    formData.append('color', userData.color || '')
+    formData.append('imageurl', userData.imageurl || '')
+
+    // Solo agrega la imagen si viene una //
+    if (imageFile) {
+        formData.append('image', imageFile)
+    }
+
+    const response = await api.patch(`/users/${id}`, formData, {
         // Se le pasa el token donde se extrae el userid del usuario logueado //
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
         }
     });
     return response.data;
@@ -56,7 +73,7 @@ export const follow = async (followData, token) => {
 }
 
 export const unfollow = async (followedid, token) => {
-    const response = await api.delete(`/users/follow/${followedid}`,{
+    const response = await api.delete(`/users/follow/${followedid}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

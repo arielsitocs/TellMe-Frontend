@@ -135,13 +135,18 @@ export default function Profile() {
         }
     }
 
+    // Solo carga una vez al montar el componente //
     useEffect(() => {
         findUser();
         loadPublications();
+
+    }, [paramsUser?.userid])
+
+    useEffect(() => {
         if (paramsUser && user) {
             getFollowingState();
         }
-    }, [paramsUser, user])
+    }, [paramsUser?.userid, user?.userid])
 
     return (
         <>
@@ -151,10 +156,10 @@ export default function Profile() {
                         {profileImageurl ? (
                             <Image
                                 src={profileImageurl}
-                                width={64}
-                                height={64}
+                                width={100}
+                                height={100}
                                 alt="User Picture"
-                                className="rounded-full border-4 border-card-background shadow-lg object-cover"
+                                className="w-25 h-25 rounded-full border-4 border-card-background  object-cover"
                             />
                         ) : (
                             <div className="w-16 h-16 flex items-center justify-center text-white font-semibold rounded-full border-4 border-card-background shadow-lg" style={{ backgroundColor: profileColor }}>

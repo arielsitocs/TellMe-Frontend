@@ -24,7 +24,6 @@ export default function ContentPublish() {
 
     const { user, token, saveSession } = useAuth() as any;
 
-    const image = false;
     const firstname = user?.firstname ?? 'error'
     const lastname = user?.lastname ?? 'error'
     const color = user?.color ?? '#FFFFFF'
@@ -41,15 +40,8 @@ export default function ContentPublish() {
             }
             // Actualiza el usuario sumando 1 a posts y pasando toda la data obligatoria en el dto //
             const updatedUserData = {
-                email: user?.email ?? "",
-                firstname: user?.firstname ?? "",
-                lastname: user?.lastname ?? "",
-                username: user?.username ?? "",
-                description: user?.description ?? "",
-                color: user?.color ?? "",
+                ...user,
                 posts: (user?.posts ?? 0) + 1,
-                followers: user?.followers ?? 0,
-                following: user?.following ?? 0
             };
             await updateAndSyncUser(user?.userid, updatedUserData, token, saveSession);
             await insertPublication(publication, token)
@@ -63,8 +55,8 @@ export default function ContentPublish() {
 
     return (
         <form onSubmit={createPublication} className="bg-card-background mt-1 sm:mt-5 px-3 py-2 min-h-50 rounded-lg border-1 border-borders">
-            <div className="flex gap-3">
-                {image ? <Image src={image} width={24} height={24} alt="User Picture" /> : <div className="w-12 h-12 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: color }}>
+            <div className="flex items-center gap-3">
+                {user?.imageurl ? <Image src={user?.imageurl} width={100} height={100} alt="User Picture" className="rounded-full object-cover w-20 h-20" /> : <div className="w-12 h-12 flex items-center justify-center text-white font-semibold rounded-full" style={{ backgroundColor: color }}>
                     {getInitials(firstname, lastname)}
                 </div>}
                 <textarea required placeholder="¿Que estás pensando?" className="text-gray-text bg-light-card-background p-2 rounded-lg border-1 border-borders w-full min-h-30 resize-none" onChange={(e) => setText(e.target.value)} />
